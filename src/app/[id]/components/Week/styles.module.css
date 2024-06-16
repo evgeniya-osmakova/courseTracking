@@ -1,0 +1,48 @@
+.container {
+
+}
+
+.caption {
+    caption-side: top;
+    text-align: center;
+    padding-bottom: 10px;
+    font-weight: 500;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.arrow {
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.wrapper {
+    border: none;
+}
+
+.day {
+    border: 1px solid black;
+    padding: 4px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.rowName {
+    text-align: left;
+}
+
+.ckeckBox {
+    cursor: pointer;
+}
