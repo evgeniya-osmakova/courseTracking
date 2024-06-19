@@ -3,7 +3,10 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent } from 'react';
 
-import signIn from '@/firebase/auth/signin';
+import { signIn } from '@/firebase/auth/signin';
+
+import styles from './styles.module.css';
+
 
 function Page() {
     const [email, setEmail] = React.useState('');
@@ -31,46 +34,58 @@ function Page() {
     };
 
     return (
-        <main className="wrapper">
-            <div className="form-wrapper">
-                <h1 className="mt-60 mb-30">
+        <main className={styles.wrapper}>
+                <h1 className={styles.header}>
                     Sign in
                 </h1>
 
-                <form onSubmit={handleForm} className="form">
+                <form
+                    onSubmit={handleForm}
+                    className={styles.form}
+                >
                     <label htmlFor="email">
                         <p>Email</p>
+
                         <input
+                            className={styles.field}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             type="email"
                             name="email"
                             id="email"
                             placeholder="example@mail.com"
+                            autoComplete="true"
                         />
                     </label>
 
                     <label htmlFor="password">
                         <p>Password</p>
+
                         <input
+                            className={styles.field}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             type="password"
                             name="password"
                             id="password"
                             placeholder="password"
+                            autoComplete="true"
                         />
                     </label>
 
-                    <button type="submit">
+                    <button
+                        className={styles.button}
+                        type="submit"
+                    >
                         Sign in
                     </button>
                 </form>
 
                 {!!error && (
-                    <div className="error">The error occurred, try again</div>
+                    <div className="error">
+                        The error occurred, try again
+                    </div>
                 )}
-            </div>
         </main>
     );
 }

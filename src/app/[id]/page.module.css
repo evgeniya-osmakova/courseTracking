@@ -3,4 +3,26 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding-top: 30px;
+}
+
+.link {
+  margin-right: auto;
+  margin-left: 30px;
+  border: 1px solid transparent;
+  padding: 2px;
+  border-radius: 2px;
+  line-height: 80%;
+
+  &:hover {
+    opacity: 0.7;
+    border: 1px solid white;
+  }
+}
+
+.videoList {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }

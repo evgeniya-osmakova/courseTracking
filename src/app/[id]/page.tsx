@@ -1,9 +1,13 @@
-import React from 'react';
+'use client';
+
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
 import { updateCourse } from '@/firebase/firestore/addData';
 import { getCourseData } from '@/firebase/firestore/getData';
+import type { Course } from '@/types/Course';
 
 import styles from './page.module.css';
 
@@ -11,12 +15,28 @@ type Params = {
     id: string;
 }
 
-async function getData(params: Params) {
-    return await getCourseData(params.id);
-}
+export default function Course({ params }: { params: Params }) {
+    const [course, setCourse] = useState<Course | null>(null);
+    const [error, setError] = useState(false);
 
-export default async function Course({ params }: { params: Params }) {
-    const { result: course, error } = await getData(params);
+    useEffect(() => {
+        const getData = async () => {
+            const { result, error } = await getCourseData(params.id);
+
+            setCourse(result);
+            setError(!!error);
+        };
+
+        getData();
+    }, [params.id]);
+
+    if (!course) {
+        return (
+            <div>
+                ...Loading
+            </div>
+        );
+    }
 
     if (!course || error) {
         return (
@@ -27,19 +47,21 @@ export default async function Course({ params }: { params: Params }) {
     }
 
     const changeDay = async (day: number) => {
-        'use server';
-
         const newData = {
             ...course,
             currentDay: day,
         };
 
-        await updateCourse(params.id, newData);
+        const { error } = await updateCourse(params.id, newData);
+
+        setError(!!error);
+
+        if (!error) {
+            setCourse(newData);
+        }
     };
 
     const changeWeek = async (week: number) => {
-        'use server';
-
         const weeksCount = Object.keys(course.videoList).length;
 
         if (week < 1 || week > weeksCount) {
@@ -51,13 +73,19 @@ export default async function Course({ params }: { params: Params }) {
             currentWeek: week,
         };
 
-        await updateCourse(params.id, newData);
+        const { error } = await updateCourse(params.id, newData);
+
+        setError(!!error);
+
+        if (!error) {
+            setCourse(newData);
+        }
     };
 
     const changeChecked = async (checked: boolean, activityType: string, index: number) => {
-        'use server';
+        const checkedList = course.checkedList[`week${course.currentWeek}`];
 
-        const oldData = course.checkedList[course.currentWeek][activityType];
+        const oldData = checkedList[activityType];
 
         let newData = [];
 
@@ -74,38 +102,52 @@ export default async function Course({ params }: { params: Params }) {
             ...course,
             checkedList: {
                 ...course.checkedList,
-                [course.currentWeek]: {
-                    ...course.checkedList[course.currentWeek],
+                [`week${course.currentWeek}`]: {
+                    ...checkedList,
                     [activityType]: newData,
                 }
             }
         };
 
-        await updateCourse(params.id, newData);
+        const { error } = await updateCourse(params.id, newValue);
+
+        setError(!!error);
+
+        if (!error) {
+            setCourse(newValue);
+        }
     };
 
     return (
         <div className={styles.container}>
+            <Link
+                href='/'
+                className={styles.link}
+                title={'To the home page'}
+            >
+                &#10094; Back
+            </Link>
+
             <Week
-                number={course.currentWeek}
-                checkedList={course.checkedList[`week${course.currentWeek}`]}
+                course={course}
                 changeDay={changeDay}
                 changeWeek={changeWeek}
                 changeChecked={changeChecked}
             />
 
-            {
-                course.videoList[`week${course.currentWeek}`]?.[`day${course.currentWeek}`]?.map((item) => {
-                    console.log(item.src);
-                    return (
-                        <Video
-                            key={item.src}
-                            src={item.src}
-                            name={item.name}
-                        />
-                    );
-                })
-            }
+            <section className={styles.videoList}>
+                {
+                    course.videoList[`week${course.currentWeek}`]?.[`day${course.currentDay}`]?.map((item) => {
+                        return (
+                            <Video
+                                key={item.src}
+                                src={item.src}
+                                name={item.name}
+                            />
+                        );
+                    })
+                }
+            </section>
         </div>
     );
 }

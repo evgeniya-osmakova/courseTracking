@@ -1,11 +1,13 @@
 'use client';
 
+import { User } from '@firebase/auth-types';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { useRouter } from 'next/navigation';
+import {  usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
+import { Header } from '@/app/components/Header/Header';
 import firebase_app from '@/firebase/configuration';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -15,33 +17,47 @@ const auth = getAuth(firebase_app);
 export default function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
-    // const [isUserValid, setIsUserValid] = useState(false);
+    const [user, setUser] = React.useState<User | null>(null);
+    const [loading, setLoading] = React.useState(true);
 
     const router = useRouter();
+    const pathname = usePathname();
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         const checkAuth = () => {
             onAuthStateChanged(auth, (userData) => {
-                if (!userData) {
+                if (userData && pathname === '/signin') {
+                    router.push('/');
+                }
+
+                if (!userData && pathname !== '/signin') {
                     router.push('/signin');
                 }
+
+                setUser(userData as any);
+
+                setLoading(false);
             });
         };
 
         return () => checkAuth();
-    }, [router]);
+    }, [router, pathname]);
 
-    // React.useEffect(() => {
-    //     if (!isUserValid) {
-    //         router.push('/signin');
-    //     } else {
-    //         router.push('/');
-    //     }
-    // }, [isUserValid, router]);
+    if (loading) {
+        return (
+            <html lang="en">
+                <body className={inter.className}>
+                    <div>...Loading</div>
+                </body>
+            </html>
+        );
+    }
 
     return (
         <html lang="en">
             <body className={inter.className}>
+                <Header user={user} />
+
                 {children}
             </body>
         </html>

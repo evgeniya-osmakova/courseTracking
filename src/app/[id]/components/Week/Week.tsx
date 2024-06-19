@@ -1,13 +1,14 @@
 'use client';
 
+import classNames from 'classnames';
+
 import { Row } from '@/app/[id]/components/Week/Row';
-import { CheckedDays } from '@/types/Week';
+import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';
 
 type Props = {
-    number: number;
-    checkedList: CheckedDays;
+    course: Course;
     changeWeek: (index: number) => void;
     changeDay: (index: number) => void;
     changeChecked: (checked: boolean, activityType: string, index: number) => void;
@@ -16,24 +17,55 @@ type Props = {
 const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa', 'Sun'];
 
 export const Week = (props: Props) => {
-    const rowList = Object.keys(props.checkedList);
+    const checkedList = props.course.checkedList[`week${props.course.currentWeek}`];
+
+    const rowList = Object.keys(checkedList);
+
+    const isFirstWeek = props.course.currentWeek === 1;
+    const isLastWeek = props.course.currentWeek === Object.keys(props.course.videoList).length;
 
     return (
         <table className={styles.container}>
             <caption className={ styles.caption }>
                 <div className={ styles.navigation }>
                     <div
-                        className={ styles.arrow }
-                        onClick={() => props.changeWeek(props.number - 1)}
+                        className={
+                            isFirstWeek
+                                ? classNames(styles.arrow, styles.inactiveArrow)
+                                : styles.arrow
+                        }
+                        onClick={
+                            isFirstWeek
+                                ? undefined
+                                : () => props.changeWeek(props.course.currentWeek - 1)
+                        }
+                        title={
+                            isFirstWeek
+                                ? undefined
+                                : 'Select previous week'
+                        }
                     >
                         &#10094;
                     </div>
 
-                    Week { props.number }
+                    Week { props.course.currentWeek }
 
                     <div
-                        className={ styles.arrow }
-                        onClick={() => props.changeWeek(props.number + 1)}
+                        className={
+                            isLastWeek
+                                ? classNames(styles.arrow, styles.inactiveArrow)
+                                : styles.arrow
+                        }
+                        onClick={
+                            isLastWeek
+                                ? undefined
+                                : () => props.changeWeek(props.course.currentWeek + 1)
+                        }
+                        title={
+                            isLastWeek
+                                ? undefined
+                                : 'Select next week'
+                        }
                     >
                         &#10095;
                     </div>
@@ -48,8 +80,17 @@ export const Week = (props: Props) => {
                     return (
                             <th
                                 key={ day }
-                                className={styles.day}
-                                onClick={() => props.changeDay(index)}
+                                className={
+                                    props.course.currentDay === index + 1
+                                        ? classNames(styles.day, styles.currentDay)
+                                        : styles.day
+                                }
+                                onClick={
+                                    props.course.currentDay === index + 1
+                                        ? undefined
+                                        : () => props.changeDay(index + 1)
+                                }
+                                title={'Change selected day'}
                             >
                                 { day }
                             </th>
@@ -64,7 +105,7 @@ export const Week = (props: Props) => {
                         <Row
                             key={name}
                             name={name}
-                            data={props.checkedList[name]}
+                            data={checkedList[name]}
                             changeChecked={props.changeChecked}
                         />
                     );
