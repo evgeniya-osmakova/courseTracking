@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-import { WeekDays } from '@/types/Week';
+import { WeekDay } from '@/types/Week';
 
 import styles from './styles.module.css';
 
 type Props = {
     name: string;
-    data: WeekDays;
+    data: WeekDay;
     changeChecked: (checked: boolean, activityType: string, index: number) => void;
 }
 

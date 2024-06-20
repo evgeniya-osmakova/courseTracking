@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Error } from './components/Error/Error';
 import { ListElement } from './components/ListElement/ListElement';
 import { getCourseList } from '@/firebase/firestore/getData';
 
@@ -15,7 +16,10 @@ export default async function Home() {
     if (!data || error) {
         return (
             <main className={ styles.main }>
-                error
+                <Error error={ {
+                    name: 'dataLoadingError',
+                    message: 'failed to load the data'
+                } }/>
             </main>
         );
     }

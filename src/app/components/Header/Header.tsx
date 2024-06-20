@@ -1,7 +1,5 @@
 'use client';
 
-
-
 import { User } from '@firebase/auth-types';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -8,6 +8,7 @@ import {  usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Header } from '@/app/components/Header/Header';
+import { Loading } from '@/app/components/Loading/Loading';
 import firebase_app from '@/firebase/configuration';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -47,7 +48,7 @@ export default function RootLayout({
         return (
             <html lang="en">
                 <body className={inter.className}>
-                    <div>...Loading</div>
+                    <Loading />
                 </body>
             </html>
         );

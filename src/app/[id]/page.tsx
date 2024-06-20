@@ -5,9 +5,12 @@ import React, { useEffect, useState } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
+import { Error } from '@/app/components/Error/Error';
+import { Loading } from '@/app/components/Loading/Loading';
 import { updateCourse } from '@/firebase/firestore/addData';
 import { getCourseData } from '@/firebase/firestore/getData';
 import type { Course } from '@/types/Course';
+import { WeekDay } from '@/types/Week';
 
 import styles from './page.module.css';
 
@@ -32,17 +35,18 @@ export default function Course({ params }: { params: Params }) {
 
     if (!course) {
         return (
-            <div>
-                ...Loading
-            </div>
+            <Loading />
         );
     }
 
     if (!course || error) {
         return (
-            <div>
-                error
-            </div>
+            <main>
+                <Error error={ {
+                    name: 'dataLoadingError',
+                    message: 'failed to load the data'
+                } }/>
+            </main>
         );
     }
 
@@ -87,7 +91,7 @@ export default function Course({ params }: { params: Params }) {
 
         const oldData = checkedList[activityType];
 
-        let newData = [];
+        let newData: WeekDay[];
 
         if (checked) {
             newData = [...oldData, index];
@@ -119,7 +123,7 @@ export default function Course({ params }: { params: Params }) {
     };
 
     return (
-        <div className={styles.container}>
+        <main className={styles.container}>
             <Link
                 href='/'
                 className={styles.link}
@@ -148,6 +152,6 @@ export default function Course({ params }: { params: Params }) {
                     })
                 }
             </section>
-        </div>
+        </main>
     );
 }

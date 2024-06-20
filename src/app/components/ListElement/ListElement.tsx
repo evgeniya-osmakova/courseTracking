@@ -2,12 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 
-import { ListItem } from '@/types/ListItem';
+import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';
 
 type Props = {
-    item: ListItem;
+    item: Course;
 }
 
 export const ListElement = (props: Props) => {

@@ -12,6 +12,7 @@ function Page() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState<null | unknown>(null);
+    const [loading, setLoading] = React.useState<boolean>(false);
 
     const router = useRouter();
 
@@ -22,10 +23,13 @@ function Page() {
             setError(null);
         }
 
+        setLoading(true);
+
         const { error: fireBaseError } = await signIn(email, password);
 
         if (fireBaseError) {
             setError(fireBaseError);
+            setLoading(false);
 
             return;
         }
@@ -76,6 +80,7 @@ function Page() {
                     <button
                         className={styles.button}
                         type="submit"
+                        disabled={loading}
                     >
                         Sign in
                     </button>

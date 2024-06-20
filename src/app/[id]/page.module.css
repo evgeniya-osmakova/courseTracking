@@ -12,7 +12,6 @@
   border: 1px solid transparent;
   padding: 2px;
   border-radius: 2px;
-  line-height: 80%;
 
   &:hover {
     opacity: 0.7;

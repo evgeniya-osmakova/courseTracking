@@ -1,5 +1,5 @@
-export type WeekDays = number[]
+export type WeekDay = number
 
 export type CheckedDays = {
-    [key: string]: WeekDays
+    [key: string]: WeekDay[]
 }
