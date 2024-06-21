@@ -13,7 +13,7 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=" "
 NEXT_PUBLIC_FIREBASE_APP_ID=" "
 ```
 
-You also need to have a data in tour Storage with such structure:
+You also need to have a data in your Storage with such structure: Course[]
 
 ```
 type WeekDay = number
