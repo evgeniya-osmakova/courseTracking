@@ -75,6 +75,7 @@ export default function Course({ params }: { params: Params }) {
         const newData = {
             ...course,
             currentWeek: week,
+            currentDay: 1,
         };
 
         const { error } = await updateCourse(params.id, newData);
