@@ -13,8 +13,6 @@ import firebase_app from '@/firebase/configuration';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const auth = getAuth(firebase_app);
-
 export default function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -26,6 +24,8 @@ export default function RootLayout({
 
     React.useLayoutEffect(() => {
         const checkAuth = () => {
+            const auth = getAuth(firebase_app);
+
             onAuthStateChanged(auth, (userData) => {
                 setUser(userData as any);
 
