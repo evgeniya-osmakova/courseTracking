@@ -27,14 +27,6 @@ export default function RootLayout({
     React.useLayoutEffect(() => {
         const checkAuth = () => {
             onAuthStateChanged(auth, (userData) => {
-                if (userData && pathname === '/signin') {
-                    router.push('/');
-                }
-
-                if (!userData && pathname !== '/signin') {
-                    router.push('/signin');
-                }
-
                 setUser(userData as any);
 
                 setLoading(false);
@@ -43,7 +35,17 @@ export default function RootLayout({
         checkAuth();
 
         return () => checkAuth();
-    }, [router, pathname]);
+    }, []);
+
+    React.useLayoutEffect(() => {
+        if (user && pathname === '/signin') {
+            router.push('/');
+        }
+
+        if (!user && pathname !== '/signin') {
+            router.push('/signin');
+        }
+    }, [user, pathname, router]);
 
     if (loading) {
         return (
