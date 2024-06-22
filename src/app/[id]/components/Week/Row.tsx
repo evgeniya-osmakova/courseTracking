@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 
 type Props = {
     name: string;
-    data: WeekDay;
+    data: WeekDay[];
     changeChecked: (checked: boolean, activityType: string, index: number) => void;
 }
 
