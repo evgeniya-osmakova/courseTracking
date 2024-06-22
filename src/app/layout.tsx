@@ -44,6 +44,7 @@ export default function RootLayout({
                 setLoading(false);
             });
         };
+        checkAuth();
 
         return () => checkAuth();
     }, [router, pathname]);
