@@ -27,6 +27,8 @@ export default function RootLayout({
     React.useLayoutEffect(() => {
         const checkAuth = () => {
             onAuthStateChanged(auth, (userData) => {
+                console.log(userData);
+
                 if (userData && pathname === '/signin') {
                     router.push('/');
                 }
