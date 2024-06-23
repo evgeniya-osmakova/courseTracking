@@ -1,43 +1,34 @@
-import React from 'react';
+'use client';
 
-import { Error } from './components/Error/Error';
-import { ListElement } from './components/ListElement/ListElement';
-import { getCourseList } from '@/firebase/firestore/getData';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect } from 'react';
+
+import { CourseList } from '@/app/components/CourseList/CourseList';
+import { Loading } from '@/app/components/Loading/Loading';
+import { AuthContext } from '@/AuthProvider';
 
 import styles from './page.module.css';
 
-async function getData() {
-    return await getCourseList();
-}
+export default function Home() {
+    const context = useContext(AuthContext);
 
-export default async function Home() {
-    const { result: data, error } = await getData();
+    const router = useRouter();
 
-    if (!data || error) {
+    useEffect(() => {
+        if (!context?.user && !context?.loading) {
+            router.replace('/signin');
+        }
+    }, [router, context]);
+
+    if (!context || context.loading) {
         return (
-            <main className={ styles.main }>
-                <Error error={ {
-                    name: 'dataLoadingError',
-                    message: 'failed to load the data'
-                } }/>
-            </main>
+            <Loading />
         );
     }
 
     return (
         <main className={ styles.main }>
-            <div className={styles.listWrapper}>
-                {
-                    data.map((item) => {
-                        return(
-                            <ListElement
-                                item={item}
-                                key={item.id}
-                            />
-                        );
-                    })
-                }
-            </div>
+            <CourseList />
         </main>
     );
 };

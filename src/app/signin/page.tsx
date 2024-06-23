@@ -1,20 +1,29 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useContext, useEffect } from 'react';
 
+import { AuthContext } from '@/AuthProvider';
 import { signIn } from '@/firebase/auth/signin';
 
 import styles from './styles.module.css';
 
 
 function Page() {
+    const context = useContext(AuthContext);
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState<null | unknown>(null);
     const [loading, setLoading] = React.useState<boolean>(false);
 
     const router = useRouter();
+
+    useEffect(() => {
+        if (context?.user && !context?.loading) {
+            router.replace('/');
+        }
+    }, [router, context]);
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -87,7 +96,7 @@ function Page() {
                 </form>
 
                 {!!error && (
-                    <div className="error">
+                    <div className={styles.error}>
                         The error occurred, try again
                     </div>
                 )}

@@ -12,12 +12,22 @@
 .form {
     display: flex;
     flex-direction: column;
+    width: 300px;
 }
 
 .field {
+    width: 300px;
     margin-bottom: 20px;
 }
 
 .button {
     cursor: pointer;
+    width: 200px;
+    margin: auto;
+}
+
+.error {
+    margin-top: 20px;
+    color: red;
+    max-width: 300px;
 }

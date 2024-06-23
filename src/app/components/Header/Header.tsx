@@ -1,25 +1,26 @@
 'use client';
 
-import { User } from '@firebase/auth-types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { logOut } from '@/firebase/auth/logout';
+import { AuthContext } from '@/AuthProvider';
 import userIcon from '@/images/user.svg';
 
 import styles from './styles.module.css';
 
-type Props = {
-    user: User | null;
-}
+export const Header: React.FC = () => {
+    const context = useContext(AuthContext);
 
-export const Header: React.FC<Props> = (props) => {
     const pathname = usePathname();
 
     const signOut = async () => {
-        const { error } = await logOut();
+        if (!context) {
+            return;
+        }
+
+        const { error } = await context.logOutUser();
 
         if (!error) {
             window.location.href = '/signin';
@@ -31,7 +32,7 @@ export const Header: React.FC<Props> = (props) => {
             {pathname !== '/signin' && (
                 <>
                     {
-                        props.user && (
+                        context?.user && (
                             <button
                                 className={ styles.action }
                                 onClick={ signOut }
@@ -42,7 +43,7 @@ export const Header: React.FC<Props> = (props) => {
                     }
 
                     {
-                        !props.user && (
+                        !context?.user && (
                             <Link
                                 className={ styles.action }
                                 href="/signin"
@@ -57,8 +58,8 @@ export const Header: React.FC<Props> = (props) => {
             <div className={styles.user}>
                 <div className={styles.name}>
                     {
-                        props.user
-                            ? props.user.email
+                        context?.user
+                            ? context?.user.email
                             : 'Anonymous'
                     }
                 </div>
