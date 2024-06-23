@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react'
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
@@ -13,6 +13,8 @@ import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
 
 import styles from './page.module.css';
+import { AuthContext } from '@/AuthProvider'
+import { useRouter } from 'next/navigation'
 
 type Params = {
     id: string;
@@ -21,19 +23,38 @@ type Params = {
 export default function Course({ params }: { params: Params }) {
     const [course, setCourse] = useState<Course | null>(null);
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const context = useContext(AuthContext);
+
+    const router = useRouter();
 
     useEffect(() => {
-        const getData = async () => {
-            const { result, error } = await getCourseData(params.id);
+        if (!context?.user && !context?.loading) {
+            router.replace('/signin');
+        }
+    }, [router, context]);
 
-            setCourse(result);
-            setError(!!error);
+    useEffect(() => {
+        setLoading(true);
+
+        const getData = async () => {
+            try {
+                const { result, error } = await getCourseData(params.id);
+
+                setCourse(result);
+                setError(!!error);
+            } catch (err) {
+                setError(true);
+            }
+
+            setLoading(false);
         };
 
         getData();
     }, [params.id]);
 
-    if (!course) {
+    if (context?.loading || loading) {
         return (
             <Loading />
         );

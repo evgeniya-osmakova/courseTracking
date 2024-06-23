@@ -11,7 +11,7 @@ export const Video = (props: Props) => {
             className={styles.video}
             title={props.name}
             allow="accelerometer; gyroscope; picture-in-picture; fullscreen"
-            width="420"
+            width="400"
             height="315"
             src={props.src}
         />
