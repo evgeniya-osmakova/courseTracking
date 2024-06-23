@@ -1,20 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
 import { Error } from '@/app/components/Error/Error';
 import { Loading } from '@/app/components/Loading/Loading';
+import { AuthContext } from '@/AuthProvider';
 import { updateCourse } from '@/firebase/firestore/addData';
 import { getCourseData } from '@/firebase/firestore/getData';
 import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
 
 import styles from './page.module.css';
-import { AuthContext } from '@/AuthProvider'
-import { useRouter } from 'next/navigation'
 
 type Params = {
     id: string;
