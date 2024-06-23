@@ -16,7 +16,7 @@ export default function Home() {
 
     useEffect(() => {
         if (!context?.user && !context?.loading) {
-            router.replace('/signin');
+            router.push('/signin');
         }
     }, [router, context]);
 

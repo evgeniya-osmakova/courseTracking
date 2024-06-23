@@ -34,7 +34,7 @@ export const CourseList = () => {
         return (
             <Error error={ {
                 name: 'dataLoadingError',
-                message: 'failed to load the data'
+                message: 'Failed to load the data. Please try again later'
             } }/>
         );
     }

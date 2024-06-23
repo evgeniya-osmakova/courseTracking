@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useContext, useEffect } from 'react';
 
+import { Loading } from '@/app/components/Loading/Loading';
 import { AuthContext } from '@/AuthProvider';
 import { signIn } from '@/firebase/auth/signin';
 
@@ -14,33 +15,39 @@ function Page() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState<null | unknown>(null);
-    const [loading, setLoading] = React.useState<boolean>(false);
+    const [error, setError] = React.useState(false);
 
     const router = useRouter();
 
     useEffect(() => {
         if (context?.user && !context?.loading) {
-            router.replace('/');
+            router.push('/');
         }
     }, [router, context]);
+
+    if (!context) {
+        return (
+            <Loading />
+        );
+    }
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (error) {
-            setError(null);
+            setError(false);
         }
 
-        setLoading(true);
+        try {
+            const { error: fireBaseError } = await signIn(email, password);
 
-        const { error: fireBaseError } = await signIn(email, password);
+            if (fireBaseError) {
+                setError(true);
 
-        if (fireBaseError) {
-            setError(fireBaseError);
-            setLoading(false);
-
-            return;
+                return;
+            }
+        } catch (err) {
+            setError(true);
         }
 
         return router.push('/');
@@ -89,13 +96,13 @@ function Page() {
                     <button
                         className={styles.button}
                         type="submit"
-                        disabled={loading}
+                        disabled={context.loading}
                     >
                         Sign in
                     </button>
                 </form>
 
-                {!!error && (
+                {error && (
                     <div className={styles.error}>
                         The error occurred, try again
                     </div>

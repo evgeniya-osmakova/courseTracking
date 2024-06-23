@@ -31,7 +31,7 @@ export default function Course({ params }: { params: Params }) {
 
     useEffect(() => {
         if (!context?.user && !context?.loading) {
-            router.replace('/signin');
+            router.push('/signin');
         }
     }, [router, context]);
 
@@ -65,7 +65,7 @@ export default function Course({ params }: { params: Params }) {
             <main>
                 <Error error={ {
                     name: 'dataLoadingError',
-                    message: 'failed to load the data'
+                    message: 'Failed to load the data. Please try again later'
                 } }/>
             </main>
         );
