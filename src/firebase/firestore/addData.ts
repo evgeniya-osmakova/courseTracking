@@ -16,8 +16,8 @@ async function addData(id: string, data: any) {
 
     const collection =
         auth.currentUser?.isAnonymous
-            ? 'videos2'
-            : 'videos';
+            ? process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_ANONYMOUS as string
+            : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION as string;
 
     try {
         result = await setDoc(doc(db, collection, id), data, {

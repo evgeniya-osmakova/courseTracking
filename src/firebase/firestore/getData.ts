@@ -17,8 +17,8 @@ async function getData(id?: string): Promise<{ result: any, error: unknown }> {
 
     const collectionName =
         auth.currentUser?.isAnonymous
-            ? 'videos2'
-            : 'videos';
+            ? process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_ANONYMOUS as string
+            : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION as string;
 
     try {
         if (id) {
