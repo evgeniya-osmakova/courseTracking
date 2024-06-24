@@ -13,40 +13,37 @@ type Props = {
 export const WeekArrow: React.FC<Props> = (props) => {
     const isFirstWeek = props.currentWeek === 1;
     const isLastWeek = props.currentWeek === props.weeksCount;
+
     const isInactive = isFirstWeek && props.arrowType === 'previous' || isLastWeek && props.arrowType === 'next';
 
-    const getWeekClassName = () => {
-        return isInactive
-            ? classNames(styles.arrow, styles.inactiveArrow)
-            : styles.arrow;
-    };
+    const nextWeekNumber = props.arrowType === 'next'
+        ? props.currentWeek + 1
+        : props.currentWeek - 1;
 
-    const changeWeek = () => {
-        const nextWeekNumber = props.arrowType === 'next'
-            ? props.currentWeek + 1
-            : props.currentWeek - 1;
+    const weekClassName = isInactive
+        ? classNames(styles.arrow, styles.inactiveArrow)
+        : styles.arrow;
 
-        return isInactive
-            ? undefined
-            : () => props.changeWeek(nextWeekNumber);
-    };
+    const changeWeek = isInactive
+        ? undefined
+        : () => props.changeWeek(nextWeekNumber);
 
-    const getTitle = () => {
-        return isInactive
-            ? undefined
-            : 'Select previous week';
-    };
+
+    const title = isInactive
+        ? undefined
+        : 'Select previous week';
+
+    const arrow = props.arrowType === 'previous'
+        ? '\u276E'
+        : '\u276F';
 
     return (
         <div
-            className={ getWeekClassName() }
-            onClick={ changeWeek() }
-            title={ getTitle() }
+            className={ weekClassName }
+            onClick={ changeWeek }
+            title={ title }
         >
-            {props.arrowType === 'previous'
-                ? '\u276E'
-                : '\u276F'
-            }
+            {arrow}
         </div>
     );
 };
