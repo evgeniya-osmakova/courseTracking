@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import styles from '@/app/[id]/components/Week/styles.module.css';
+import styles from './styles.module.css';
 
 type Props = {
     arrowType: 'previous' | 'next',
