@@ -11,6 +11,10 @@ async function getData(id?: string): Promise<{ result: any, error: unknown }> {
     let result = null;
     let error = null;
 
+    if (!auth) {
+        return { result, error };
+    }
+
     const collectionName =
         auth.currentUser?.isAnonymous
             ? 'videos2'

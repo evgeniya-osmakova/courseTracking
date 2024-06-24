@@ -10,6 +10,10 @@ async function addData(id: string, data: any) {
     let result = null;
     let error = null;
 
+    if (!auth) {
+        return { result, error };
+    }
+
     const collection =
         auth.currentUser?.isAnonymous
             ? 'videos2'
