@@ -33,22 +33,28 @@ export const Week = (props: Props) => {
         );
     };
 
+    const changeWeek = (showInactive: boolean, nextWeekNumber: number) => {
+        return showInactive
+            ? undefined
+            : () => props.changeWeek(nextWeekNumber);
+    };
+
+    const getTitle = (showInactive: boolean) => {
+        return showInactive
+            ? undefined
+            : 'Select previous week';
+    };
+
     return (
         <table className={styles.container}>
             <caption className={ styles.caption }>
                 <div className={ styles.navigation }>
                     <div
                         className={getWeekClassName(isFirstWeek)}
-                        onClick={
-                            isFirstWeek
-                                ? undefined
-                                : () => props.changeWeek(props.course.currentWeek - 1)
-                        }
-                        title={
-                            isFirstWeek
-                                ? undefined
-                                : 'Select previous week'
-                        }
+                        onClick={changeWeek(
+                            isFirstWeek,
+                            props.course.currentWeek - 1) }
+                        title={getTitle(isFirstWeek)}
                     >
                         &#10094;
                     </div>
@@ -57,16 +63,10 @@ export const Week = (props: Props) => {
 
                     <div
                         className={getWeekClassName(isFirstWeek)}
-                        onClick={
-                            isLastWeek
-                                ? undefined
-                                : () => props.changeWeek(props.course.currentWeek + 1)
-                        }
-                        title={
-                            isLastWeek
-                                ? undefined
-                                : 'Select next week'
-                        }
+                        onClick={changeWeek(
+                            isLastWeek,
+                            props.course.currentWeek + 1) }
+                        title={getTitle(isLastWeek)}
                     >
                         &#10095;
                     </div>
