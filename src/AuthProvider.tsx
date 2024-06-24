@@ -1,9 +1,8 @@
-import { getAuth, onAuthStateChanged, User, UserCredential } from 'firebase/auth';
-import { usePathname, useRouter } from 'next/navigation';
+import { getAuth, onAuthStateChanged, User, UserCredential } from 'firebase/auth'
 import React, { createContext, useEffect, useState } from 'react';
 
 import { logOut } from '@/firebase/auth/logout';
-import { signIn } from '@/firebase/auth/signin';
+import { anonymousSignIn, signIn } from '@/firebase/auth/signin'
 import firebase_app from '@/firebase/configuration';
 
 
@@ -12,6 +11,7 @@ const auth = getAuth(firebase_app);
 type Context = {
     user: User | null;
     loginUser: (email: string, password: string) =>  Promise<{ result: UserCredential | null, error: unknown }>;
+    loginAnonymous: () =>  Promise<{ result: UserCredential | null, error: unknown }>;
     logOutUser: () =>  Promise<{ error: unknown }>;
     loading: boolean;
 }
@@ -22,19 +22,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const router = useRouter();
-    const pathname = usePathname();
-
-    const loginUser = (email: string, password: string) => {
+    const loginUser = async (email: string, password: string) => {
         setLoading(true);
 
-        return signIn(email, password);
+        const result = await signIn(email, password);
+
+        setLoading(false);
+
+        return result;
     };
 
-    const logOutUser = () => {
+    const loginAnonymous = async () => {
         setLoading(true);
 
-        return logOut();
+        const result = await anonymousSignIn();
+
+        setLoading(false);
+
+        return result;
+    };
+
+    const logOutUser = async () => {
+        setLoading(true);
+
+        const result = await logOut();
+
+        setLoading(false);
+
+        return result;
     };
 
     useEffect(() => {
@@ -52,6 +67,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         loginUser,
         logOutUser,
+        loginAnonymous,
         loading,
     };
 

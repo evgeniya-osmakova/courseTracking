@@ -58,9 +58,9 @@ export const Header: React.FC = () => {
             <div className={styles.user}>
                 <div className={styles.name}>
                     {
-                        context?.user
-                            ? context?.user.email
-                            : 'Anonymous'
+                        context?.user?.isAnonymous
+                            ? 'Anonymous'
+                            : context?.user?.email
                     }
                 </div>
 

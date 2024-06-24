@@ -36,6 +36,10 @@ export default function Course({ params }: { params: Params }) {
     }, [router, context]);
 
     useEffect(() => {
+        if (!context || context.loading) {
+            return
+        }
+
         setLoading(true);
 
         const getData = async () => {
@@ -52,7 +56,7 @@ export default function Course({ params }: { params: Params }) {
         };
 
         getData();
-    }, [params.id]);
+    }, [params.id, context]);
 
     if (context?.loading || loading) {
         return (

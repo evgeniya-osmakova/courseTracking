@@ -5,9 +5,9 @@ import React, { FormEvent, useContext, useEffect } from 'react';
 
 import { Loading } from '@/app/components/Loading/Loading';
 import { AuthContext } from '@/AuthProvider';
-import { signIn } from '@/firebase/auth/signin';
 
 import styles from './styles.module.css';
+import { signInAnonymously } from 'firebase/auth'
 
 
 function Page() {
@@ -38,20 +38,32 @@ function Page() {
             setError(false);
         }
 
-        try {
-            const { error: fireBaseError } = await signIn(email, password);
+        const { error: fireBaseError } = await context.loginUser(email, password);
 
-            if (fireBaseError) {
-                setError(true);
-
-                return;
-            }
-        } catch (err) {
+        if (fireBaseError) {
             setError(true);
+
+            return;
         }
 
         return router.push('/');
     };
+
+    const signInAnonymously = async () => {
+        if (error) {
+            setError(false);
+        }
+
+        const { error: fireBaseError } = await context.loginAnonymous();
+
+        if (fireBaseError) {
+            setError(true);
+
+            return;
+        }
+
+        return router.push('/');
+    }
 
     return (
         <main className={styles.wrapper}>
@@ -101,6 +113,15 @@ function Page() {
                         Sign in
                     </button>
                 </form>
+
+
+                <button
+                    className={styles.anonymousButton}
+                    onClick={signInAnonymously}
+                    disabled={context.loading}
+                >
+                    Sign in as a guest
+                </button>
 
                 {error && (
                     <div className={styles.error}>
