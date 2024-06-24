@@ -33,7 +33,11 @@ export const Week = (props: Props) => {
         );
     };
 
-    const changeWeek = (showInactive: boolean, nextWeekNumber: number) => {
+    const changeWeek = (showInactive: boolean, weekType: 'next' | 'previous') => {
+        const nextWeekNumber = weekType === 'next'
+            ? props.course.currentWeek + 1
+            : props.course.currentWeek - 1;
+
         return showInactive
             ? undefined
             : () => props.changeWeek(nextWeekNumber);
@@ -51,9 +55,7 @@ export const Week = (props: Props) => {
                 <div className={ styles.navigation }>
                     <div
                         className={getWeekClassName(isFirstWeek)}
-                        onClick={changeWeek(
-                            isFirstWeek,
-                            props.course.currentWeek - 1) }
+                        onClick={changeWeek(isFirstWeek, 'previous') }
                         title={getTitle(isFirstWeek)}
                     >
                         &#10094;
@@ -63,9 +65,7 @@ export const Week = (props: Props) => {
 
                     <div
                         className={getWeekClassName(isFirstWeek)}
-                        onClick={changeWeek(
-                            isLastWeek,
-                            props.course.currentWeek + 1) }
+                        onClick={changeWeek(isLastWeek, 'next')}
                         title={getTitle(isLastWeek)}
                     >
                         &#10095;
