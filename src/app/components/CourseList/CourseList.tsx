@@ -34,7 +34,7 @@ export const CourseList = () => {
         };
 
         getData();
-    }, []);
+    }, [context]);
 
     if (!data || error) {
         return (

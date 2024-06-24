@@ -1,4 +1,4 @@
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut } from 'firebase/auth';
 
 import firebase_app from '@/firebase/configuration';
 

@@ -37,7 +37,7 @@ export default function Course({ params }: { params: Params }) {
 
     useEffect(() => {
         if (!context || context.loading) {
-            return
+            return;
         }
 
         setLoading(true);

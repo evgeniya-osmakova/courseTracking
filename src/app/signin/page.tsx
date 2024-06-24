@@ -1,5 +1,6 @@
 'use client';
 
+import { signInAnonymously } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useContext, useEffect } from 'react';
 
@@ -7,7 +8,6 @@ import { Loading } from '@/app/components/Loading/Loading';
 import { AuthContext } from '@/AuthProvider';
 
 import styles from './styles.module.css';
-import { signInAnonymously } from 'firebase/auth'
 
 
 function Page() {
@@ -63,7 +63,7 @@ function Page() {
         }
 
         return router.push('/');
-    }
+    };
 
     return (
         <main className={styles.wrapper}>

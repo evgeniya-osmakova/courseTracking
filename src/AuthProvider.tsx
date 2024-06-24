@@ -1,8 +1,8 @@
-import { getAuth, onAuthStateChanged, User, UserCredential } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, User, UserCredential } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 
 import { logOut } from '@/firebase/auth/logout';
-import { anonymousSignIn, signIn } from '@/firebase/auth/signin'
+import { anonymousSignIn, signIn } from '@/firebase/auth/signin';
 import firebase_app from '@/firebase/configuration';
 
 

@@ -1,5 +1,6 @@
-import { signInWithEmailAndPassword, signInAnonymously, getAuth } from 'firebase/auth'
-import firebase_app from '@/firebase/configuration'
+import { signInWithEmailAndPassword, signInAnonymously, getAuth } from 'firebase/auth';
+
+import firebase_app from '@/firebase/configuration';
 
 const auth = getAuth(firebase_app);
 

@@ -1,7 +1,7 @@
+import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 import firebase_app from '../configuration';
-import { getAuth } from 'firebase/auth'
 
 const db = getFirestore(firebase_app);
 const auth = getAuth(firebase_app);
@@ -13,7 +13,7 @@ async function addData(id: string, data: any) {
     const collection =
         auth.currentUser?.isAnonymous
             ? 'videos2'
-            : 'videos'
+            : 'videos';
 
     try {
         result = await setDoc(doc(db, collection, id), data, {
