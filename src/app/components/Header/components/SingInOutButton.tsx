@@ -20,29 +20,23 @@ export const SingInOutButton = () => {
         }
     };
 
-    return (
-        <>
-            {
-                context?.user && (
-                    <button
-                        className={ styles.action }
-                        onClick={ signOut }
-                    >
-                        Sign out
-                    </button>
-                )
-            }
+    if (context?.user) {
+        return (
+            <button
+                className={ styles.action }
+                onClick={ signOut }
+            >
+                Sign out
+            </button>
+        );
+    }
 
-            {
-                !context?.user && (
-                    <Link
-                        className={ styles.action }
-                        href="/signin"
-                    >
-                        Sign In
-                    </Link>
-                )
-            }
-        </>
+    return (
+        <Link
+            className={ styles.action }
+            href="/signin"
+        >
+            Sign In
+        </Link>
     );
 };
