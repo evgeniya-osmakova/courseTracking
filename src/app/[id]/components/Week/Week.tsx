@@ -20,6 +20,7 @@ export const Week = (props: Props) => {
     const checkedList = props.course.checkedList[`week${props.course.currentWeek}`];
 
     const rowList = Object.keys(checkedList);
+    const weeksCount =Object.keys(props.course.videoList).length;
 
     return (
         <table className={styles.container}>
@@ -29,7 +30,7 @@ export const Week = (props: Props) => {
                         arrowType="previous"
                         currentWeek={props.course.currentWeek}
                         changeWeek={props.changeWeek}
-                        weeksCount={Object.keys(props.course.videoList).length}
+                        weeksCount={weeksCount}
                     />
 
                     Week { props.course.currentWeek }
@@ -38,7 +39,7 @@ export const Week = (props: Props) => {
                         arrowType="next"
                         currentWeek={props.course.currentWeek}
                         changeWeek={props.changeWeek}
-                        weeksCount={Object.keys(props.course.videoList).length}
+                        weeksCount={weeksCount}
                     />
                 </div>
             </caption>
