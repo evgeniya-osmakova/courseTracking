@@ -12,7 +12,7 @@ type Props = {
     changeChecked: (checked: boolean, activityType: string, index: number) => void;
 }
 
-const daysCount = 7;
+const daysCount = 6;
 
 export const Row = (props: Props) => {
     const handleChange = (checked: boolean, index: number) => {

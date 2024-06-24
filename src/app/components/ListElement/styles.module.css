@@ -6,7 +6,7 @@
     padding: 2px;
     border: 1px solid lightgray;
     border-radius: 5px;
-    background-color: bisque;
+    background-color: #606060;
 
     &:hover {
         opacity: 0.7;
@@ -14,6 +14,6 @@
 }
 
 .name {
-    color: black;
+    color: white;
     margin: auto;
 }

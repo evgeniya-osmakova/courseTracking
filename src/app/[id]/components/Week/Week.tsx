@@ -14,7 +14,7 @@ type Props = {
     changeChecked: (checked: boolean, activityType: string, index: number) => void;
 }
 
-const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa', 'Sun'];
+const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa'];
 
 export const Week = (props: Props) => {
     const checkedList = props.course.checkedList[`week${props.course.currentWeek}`];

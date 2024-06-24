@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Error } from '@/app/components/Error/Error';
 import { ListElement } from '@/app/components/ListElement/ListElement';
+import { AuthContext } from '@/AuthProvider';
 import { getCourseList } from '@/firebase/firestore/getData';
 import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';
-import { AuthContext } from '@/AuthProvider';
-
 
 export const CourseList = () => {
     const [data, setData] = useState<Course[] | null>([]);
@@ -17,7 +16,7 @@ export const CourseList = () => {
 
     useEffect(() => {
         if (!context || context.loading) {
-            return
+            return;
         }
 
         const getData = async () => {

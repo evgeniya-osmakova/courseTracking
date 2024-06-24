@@ -14,7 +14,7 @@ import { getCourseData } from '@/firebase/firestore/getData';
 import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
 
-import styles from './page.module.css';
+import styles from './styles.module.css';
 
 type Params = {
     id: string;
