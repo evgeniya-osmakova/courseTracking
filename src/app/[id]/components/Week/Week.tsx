@@ -2,6 +2,7 @@
 
 import classNames from 'classnames';
 
+import { Day } from '@/app/[id]/components/Week/Day';
 import { Row } from '@/app/[id]/components/Week/Row';
 import { Course } from '@/types/Course';
 
@@ -24,16 +25,20 @@ export const Week = (props: Props) => {
     const isFirstWeek = props.course.currentWeek === 1;
     const isLastWeek = props.course.currentWeek === Object.keys(props.course.videoList).length;
 
+    const getWeekClassName = (showInactive: boolean) => {
+        return (
+            showInactive
+                ? classNames(styles.arrow, styles.inactiveArrow)
+                : styles.arrow
+        );
+    };
+
     return (
         <table className={styles.container}>
             <caption className={ styles.caption }>
                 <div className={ styles.navigation }>
                     <div
-                        className={
-                            isFirstWeek
-                                ? classNames(styles.arrow, styles.inactiveArrow)
-                                : styles.arrow
-                        }
+                        className={getWeekClassName(isFirstWeek)}
                         onClick={
                             isFirstWeek
                                 ? undefined
@@ -51,11 +56,7 @@ export const Week = (props: Props) => {
                     Week { props.course.currentWeek }
 
                     <div
-                        className={
-                            isLastWeek
-                                ? classNames(styles.arrow, styles.inactiveArrow)
-                                : styles.arrow
-                        }
+                        className={getWeekClassName(isFirstWeek)}
                         onClick={
                             isLastWeek
                                 ? undefined
@@ -78,22 +79,13 @@ export const Week = (props: Props) => {
 
                 { weekDays.map((day, index) => {
                     return (
-                            <th
-                                key={ day }
-                                className={
-                                    props.course.currentDay === index + 1
-                                        ? classNames(styles.day, styles.currentDay)
-                                        : styles.day
-                                }
-                                onClick={
-                                    props.course.currentDay === index + 1
-                                        ? undefined
-                                        : () => props.changeDay(index + 1)
-                                }
-                                title={'Change selected day'}
-                            >
-                                { day }
-                            </th>
+                        <Day
+                            key={day}
+                            day={day}
+                            index={index}
+                            changeDay={props.changeDay}
+                            currentDay={props.course.currentDay}
+                        />
                     );
                 })}
                 </tr>

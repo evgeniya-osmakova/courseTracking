@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useContext } from 'react';
 
+import { SingInOutButton } from '@/app/components/Header/components/SingInOutButton';
 import { AuthContext } from '@/AuthProvider';
 import userIcon from '@/images/user.svg';
 
@@ -15,44 +15,10 @@ export const Header: React.FC = () => {
 
     const pathname = usePathname();
 
-    const signOut = async () => {
-        if (!context) {
-            return;
-        }
-
-        const { error } = await context.logOutUser();
-
-        if (!error) {
-            window.location.href = '/signin';
-        }
-    };
-
     return (
         <header className={styles.header}>
             {pathname !== '/signin' && (
-                <>
-                    {
-                        context?.user && (
-                            <button
-                                className={ styles.action }
-                                onClick={ signOut }
-                            >
-                                Sign out
-                            </button>
-                        )
-                    }
-
-                    {
-                        !context?.user && (
-                            <Link
-                                className={ styles.action }
-                                href="/signin"
-                            >
-                                Sign In
-                            </Link>
-                        )
-                    }
-                </>
+               <SingInOutButton />
             )}
 
             <div className={styles.user}>

@@ -8,6 +8,7 @@ import { Loading } from '@/app/components/Loading/Loading';
 import { AuthContext } from '@/AuthProvider';
 
 import styles from './styles.module.css';
+import { FormField } from '@/app/signin/components/FormField'
 
 
 function Page() {
@@ -75,35 +76,19 @@ function Page() {
                     onSubmit={handleForm}
                     className={styles.form}
                 >
-                    <label htmlFor="email">
-                        <p>Email</p>
+                    <FormField
+                        onChange={setEmail}
+                        formType="email"
+                        placeholder="example@mail.com"
+                        label="E-mail"
+                    />
 
-                        <input
-                            className={styles.field}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="example@mail.com"
-                            autoComplete="true"
-                        />
-                    </label>
-
-                    <label htmlFor="password">
-                        <p>Password</p>
-
-                        <input
-                            className={styles.field}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="password"
-                            autoComplete="true"
-                        />
-                    </label>
+                    <FormField
+                        onChange={setPassword}
+                        formType="password"
+                        placeholder="true"
+                        label="Password"
+                    />
 
                     <button
                         className={styles.button}
