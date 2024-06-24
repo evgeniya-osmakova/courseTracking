@@ -1,9 +1,8 @@
 'use client';
 
-import classNames from 'classnames';
-
 import { Day } from '@/app/[id]/components/Week/Day';
 import { Row } from '@/app/[id]/components/Week/Row';
+import { WeekArrow } from '@/app/[id]/components/Week/WeekArrow';
 import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';
@@ -22,54 +21,25 @@ export const Week = (props: Props) => {
 
     const rowList = Object.keys(checkedList);
 
-    const isFirstWeek = props.course.currentWeek === 1;
-    const isLastWeek = props.course.currentWeek === Object.keys(props.course.videoList).length;
-
-    const getWeekClassName = (showInactive: boolean) => {
-        return (
-            showInactive
-                ? classNames(styles.arrow, styles.inactiveArrow)
-                : styles.arrow
-        );
-    };
-
-    const changeWeek = (showInactive: boolean, weekType: 'next' | 'previous') => {
-        const nextWeekNumber = weekType === 'next'
-            ? props.course.currentWeek + 1
-            : props.course.currentWeek - 1;
-
-        return showInactive
-            ? undefined
-            : () => props.changeWeek(nextWeekNumber);
-    };
-
-    const getTitle = (showInactive: boolean) => {
-        return showInactive
-            ? undefined
-            : 'Select previous week';
-    };
-
     return (
         <table className={styles.container}>
             <caption className={ styles.caption }>
                 <div className={ styles.navigation }>
-                    <div
-                        className={getWeekClassName(isFirstWeek)}
-                        onClick={changeWeek(isFirstWeek, 'previous') }
-                        title={getTitle(isFirstWeek)}
-                    >
-                        &#10094;
-                    </div>
+                    <WeekArrow
+                        arrowType="previous"
+                        currentWeek={props.course.currentWeek}
+                        changeWeek={props.changeWeek}
+                        weeksCount={Object.keys(props.course.videoList).length}
+                    />
 
                     Week { props.course.currentWeek }
 
-                    <div
-                        className={getWeekClassName(isFirstWeek)}
-                        onClick={changeWeek(isLastWeek, 'next')}
-                        title={getTitle(isLastWeek)}
-                    >
-                        &#10095;
-                    </div>
+                    <WeekArrow
+                        arrowType="next"
+                        currentWeek={props.course.currentWeek}
+                        changeWeek={props.changeWeek}
+                        weeksCount={Object.keys(props.course.videoList).length}
+                    />
                 </div>
             </caption>
 
