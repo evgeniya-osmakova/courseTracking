@@ -3,14 +3,17 @@
 import React from 'react';
 
 import { Header } from '@/app/components/Header/Header';
-import { AuthProvider } from '@/AuthProvider';
+import { AuthenticationProvider } from '@/providers/AuthenticationProvider';
+import { BackendClientProvider } from '@/providers/BackendClientProvider';
 
 export const Provider: React.FC<React.PropsWithChildren> = ({ children }) => {
     return (
-        <AuthProvider>
-            <Header />
+        <AuthenticationProvider>
+            <BackendClientProvider>
+                <Header />
 
-            {children}
-        </AuthProvider>
+                {children}
+            </BackendClientProvider>
+        </AuthenticationProvider>
     );
 };

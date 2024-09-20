@@ -2,16 +2,16 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { SingInOutButton } from '@/app/components/Header/components/SingInOutButton';
-import { AuthContext } from '@/AuthProvider';
 import userIcon from '@/images/user.svg';
+import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
 
 import styles from './styles.module.css';
 
 export const Header: React.FC = () => {
-    const context = useContext(AuthContext);
+    const { user } = useAuthenticationContext();
 
     const pathname = usePathname();
 
@@ -24,9 +24,9 @@ export const Header: React.FC = () => {
             <div className={styles.user}>
                 <div className={styles.name}>
                     {
-                        context?.user?.isAnonymous
+                        user?.isAnonymous
                             ? 'Anonymous'
-                            : context?.user?.email
+                            : user?.email
                     }
                 </div>
 

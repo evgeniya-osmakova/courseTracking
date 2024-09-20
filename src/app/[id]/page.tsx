@@ -2,15 +2,14 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
 import { Error } from '@/app/components/Error/Error';
 import { Loading } from '@/app/components/Loading/Loading';
-import { AuthContext } from '@/AuthProvider';
-import { updateCourse } from '@/firebase/firestore/addData';
-import { getCourseData } from '@/firebase/firestore/getData';
+import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
+import { useBackendClient } from '@/providers/BackendClientProvider';
 import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
 
@@ -21,30 +20,18 @@ type Params = {
 }
 
 export default function Course({ params }: { params: Params }) {
+    const backendClient = useBackendClient();
+
     const [course, setCourse] = useState<Course | null>(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const context = useContext(AuthContext);
-
-    const router = useRouter();
-
     useEffect(() => {
-        if (!context?.user && !context?.loading) {
-            router.push('/signin');
-        }
-    }, [router, context]);
-
-    useEffect(() => {
-        if (!context || context.loading) {
-            return;
-        }
-
         setLoading(true);
 
         const getData = async () => {
             try {
-                const { result, error } = await getCourseData(params.id);
+                const { result, error } = await backendClient.getCourseData(params.id);
 
                 setCourse(result);
                 setError(!!error);
@@ -56,9 +43,9 @@ export default function Course({ params }: { params: Params }) {
         };
 
         getData();
-    }, [params.id, context]);
+    }, [params.id, backendClient]);
 
-    if (context?.loading || loading) {
+    if (loading) {
         return (
             <Loading />
         );
@@ -81,7 +68,7 @@ export default function Course({ params }: { params: Params }) {
             currentDay: day,
         };
 
-        const { error } = await updateCourse(params.id, newData);
+        const { error } = await backendClient.updateCourse(params.id, newData);
 
         setError(!!error);
 
@@ -103,7 +90,7 @@ export default function Course({ params }: { params: Params }) {
             currentDay: 1,
         };
 
-        const { error } = await updateCourse(params.id, newData);
+        const { error } = await backendClient.updateCourse(params.id, newData);
 
         setError(!!error);
 
@@ -139,7 +126,7 @@ export default function Course({ params }: { params: Params }) {
             }
         };
 
-        const { error } = await updateCourse(params.id, newValue);
+        const { error } = await backendClient.updateCourse(params.id, newValue);
 
         setError(!!error);
 

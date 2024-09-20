@@ -1,26 +1,24 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 import styles from './styles.module.css';
 
-type Props = {
-    formType: string;
-    onChange: (value: string) => void;
+interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>{
     label: string;
-    placeholder?: string;
+    onChange: (value: string) => void;
 }
 
 export const FormField: React.FC<Props> = (props) => {
     return (
-        <label htmlFor={ props.formType }>
+        <label htmlFor={ props.type }>
             <p>{ props.label }</p>
 
             <input
                 className={ styles.field }
                 onChange={ (e) => props.onChange(e.target.value) }
                 required
-                type={ props.formType }
-                name={ props.formType }
-                id={ props.formType }
+                type={ props.type }
+                name={ props.type }
+                id={ props.type }
                 placeholder={props.placeholder}
                 autoComplete="true"
             />

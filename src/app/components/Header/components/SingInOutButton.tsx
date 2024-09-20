@@ -1,26 +1,24 @@
 import Link from 'next/link';
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { AuthContext } from '@/AuthProvider';
+import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
+import { useBackendClient } from '@/providers/BackendClientProvider';
 
 import styles from './styles.module.css';
 
 export const SingInOutButton = () => {
-    const context = useContext(AuthContext);
+    const { user } = useAuthenticationContext();
+    const backendClient = useBackendClient();
 
     const signOut = async () => {
-        if (!context) {
-            return;
-        }
+        try {
+            await backendClient.authentication.logOut();
+        } catch (err) {
 
-        const { error } = await context.logOutUser();
-
-        if (!error) {
-            window.location.href = '/signin';
         }
     };
 
-    if (context?.user) {
+    if (user) {
         return (
             <button
                 className={ styles.action }

@@ -1,36 +1,24 @@
 'use client';
 
-import { signInAnonymously } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useContext, useEffect } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 
-import { Loading } from '@/app/components/Loading/Loading';
 import { FormField } from '@/app/signin/components/FormField';
-import { AuthContext } from '@/AuthProvider';
+import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
+import { useBackendClient } from '@/providers/BackendClientProvider';
 
 import styles from './styles.module.css';
 
 
 function Page() {
-    const context = useContext(AuthContext);
+    const { user } = useAuthenticationContext();
+    const backendClient = useBackendClient();
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState(false);
 
     const router = useRouter();
-
-    useEffect(() => {
-        if (context?.user && !context?.loading) {
-            router.push('/');
-        }
-    }, [router, context]);
-
-    if (!context) {
-        return (
-            <Loading />
-        );
-    }
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -39,15 +27,19 @@ function Page() {
             setError(false);
         }
 
-        const { error: fireBaseError } = await context.loginUser(email, password);
+        try {
+            const { error: fireBaseError } = await backendClient.authentication.signIn(email, password);
 
-        if (fireBaseError) {
+            if (fireBaseError) {
+                setError(true);
+
+                return;
+            }
+        } catch (error) {
             setError(true);
 
             return;
         }
-
-        return router.push('/');
     };
 
     const signInAnonymously = async () => {
@@ -55,15 +47,19 @@ function Page() {
             setError(false);
         }
 
-        const { error: fireBaseError } = await context.loginAnonymous();
+        try {
+            const { error: fireBaseError } = await backendClient.authentication.anonymousSignIn();
 
-        if (fireBaseError) {
+            if (fireBaseError) {
+                setError(true);
+
+                return;
+            }
+        } catch (error) {
             setError(true);
 
             return;
         }
-
-        return router.push('/');
     };
 
     return (
@@ -78,22 +74,21 @@ function Page() {
                 >
                     <FormField
                         onChange={setEmail}
-                        formType="email"
+                        type="email"
                         placeholder="example@mail.com"
                         label="E-mail"
                     />
 
                     <FormField
                         onChange={setPassword}
-                        formType="password"
-                        placeholder="true"
+                        type="password"
+                        placeholder="password"
                         label="Password"
                     />
 
                     <button
                         className={styles.button}
                         type="submit"
-                        disabled={context.loading}
                     >
                         Sign in
                     </button>
@@ -103,7 +98,6 @@ function Page() {
                 <button
                     className={styles.anonymousButton}
                     onClick={signInAnonymously}
-                    disabled={context.loading}
                 >
                     Sign in as a guest
                 </button>

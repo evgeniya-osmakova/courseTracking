@@ -1,27 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 
 import { Error } from '@/app/components/Error/Error';
 import { ListElement } from '@/app/components/ListElement/ListElement';
-import { AuthContext } from '@/AuthProvider';
-import { getCourseList } from '@/firebase/firestore/getData';
+import { useBackendClient } from '@/providers/BackendClientProvider';
 import { Course } from '@/types/Course';
+
 
 import styles from './styles.module.css';
 
 export const CourseList = () => {
+    const backendClient = useBackendClient();
     const [data, setData] = useState<Course[] | null>([]);
     const [error, setError] = useState(false);
 
-    const context = useContext(AuthContext);
-
     useEffect(() => {
-        if (!context || context.loading) {
-            return;
-        }
-
         const getData = async () => {
             try {
-                const {result, error: error} = await getCourseList();
+                const {result, error: error} = await backendClient.getCourseList();
 
                 setData(result);
 
@@ -34,7 +31,7 @@ export const CourseList = () => {
         };
 
         getData();
-    }, [context]);
+    }, [backendClient]);
 
     if (!data || error) {
         return (
