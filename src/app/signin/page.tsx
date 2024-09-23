@@ -1,24 +1,19 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import React, { FormEvent, useEffect } from 'react';
+import React, { FormEvent } from 'react';
 
 import { FormField } from '@/app/signin/components/FormField';
-import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
 import { useBackendClient } from '@/providers/BackendClientProvider';
 
 import styles from './styles.module.css';
 
 
 function Page() {
-    const { user } = useAuthenticationContext();
     const backendClient = useBackendClient();
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState(false);
-
-    const router = useRouter();
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();

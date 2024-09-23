@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react'
 import { useRouter } from 'next/navigation';
 
 import { Course } from '@/types/Course';
@@ -10,7 +11,7 @@ type Props = {
     item: Course;
 }
 
-export const ListElement = (props: Props) => {
+export const ListElement: React.FC<Props> = (props) => {
     const router = useRouter();
 
     return (

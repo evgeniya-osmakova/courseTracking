@@ -1,11 +1,10 @@
-'use client';
-
 import { Day } from '@/app/[id]/components/Week/Day';
 import { Row } from '@/app/[id]/components/Week/Row';
 import { WeekArrow } from '@/app/[id]/components/Week/WeekArrow';
 import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';
+import React from 'react'
 
 type Props = {
     course: Course;
@@ -16,7 +15,7 @@ type Props = {
 
 const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa'];
 
-export const Week = (props: Props) => {
+export const Week: React.FC<Props> = (props) => {
     const checkedList = props.course.checkedList[`week${props.course.currentWeek}`];
 
     const rowList = Object.keys(checkedList);

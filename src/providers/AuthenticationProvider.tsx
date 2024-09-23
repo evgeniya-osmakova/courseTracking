@@ -7,7 +7,7 @@ import React, {
     useState
 } from 'react';
 
-import { Loading } from '@/app/components/Loading/Loading';
+import { Loading } from '@/components/Loading/Loading';
 import firebase_app from '@/firebase/configuration';
 
 const auth = getAuth(firebase_app);

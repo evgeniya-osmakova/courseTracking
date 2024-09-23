@@ -1,11 +1,12 @@
 import styles from './styles.module.css';
+import React from 'react'
 
 type Props = {
     src: string;
     name: string;
 }
 
-export const Video = (props: Props) => {
+export const Video: React.FC<Props> = (props) => {
     return (
         <iframe
             className={styles.video}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CourseList } from '@/app/components/CourseList/CourseList';
+import { CourseList } from './components/CourseList/CourseList';
 
 import styles from './page.module.css';
 

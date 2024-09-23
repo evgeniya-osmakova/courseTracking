@@ -1,14 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
-import { Error } from '@/app/components/Error/Error';
-import { Loading } from '@/app/components/Loading/Loading';
-import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
+import { Error } from '@/components/Error/Error';
+import { Loading } from '@/components/Loading/Loading';
 import { useBackendClient } from '@/providers/BackendClientProvider';
 import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
