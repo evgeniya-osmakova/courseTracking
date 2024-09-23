@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 
 import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
 import { useBackendClient } from '@/providers/BackendClientProvider';

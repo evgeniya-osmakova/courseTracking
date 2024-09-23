@@ -1,10 +1,11 @@
+import React from 'react';
+
 import { Day } from '@/app/[id]/components/Week/Day';
 import { Row } from '@/app/[id]/components/Week/Row';
 import { WeekArrow } from '@/app/[id]/components/Week/WeekArrow';
 import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';
-import React from 'react'
 
 type Props = {
     course: Course;

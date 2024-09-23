@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import React from 'react';
 
 import { SingInOutButton } from '@/app/components/Header/SingInOutButton/SingInOutButton';
 import userIcon from '@/images/user.svg';
