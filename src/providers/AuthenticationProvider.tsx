@@ -51,10 +51,10 @@ export const AuthenticationProvider = ({ children }: { children: React.ReactNode
     }, []);
 
     useEffect(() => {
-        if (redirectPath) {
+        if (!loading && redirectPath) {
             router.push(redirectPath);
         }
-    }, [redirectPath, router]);
+    }, [loading, redirectPath, router]);
 
     if (loading || redirectPath) {
         return <Loading />;
