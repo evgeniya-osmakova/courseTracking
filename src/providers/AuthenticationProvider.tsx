@@ -3,8 +3,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, {
     createContext,
     useContext,
-    useEffect,
-    useState
+    useEffect, useMemo,
+    useState,
 } from 'react';
 
 import { Loading } from '@/components/Loading/Loading';
@@ -25,6 +25,20 @@ export const AuthenticationProvider = ({ children }: { children: React.ReactNode
     const router = useRouter();
     const pathname = usePathname();
 
+    const redirectPath = useMemo((): string | null => {
+        const isSignInPage = pathname === '/signin';
+
+        if (!user && !isSignInPage) {
+            return '/signin';
+        }
+
+        if (user && isSignInPage) {
+            return '/';
+        }
+
+        return null;
+    }, [pathname, user]);
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -37,16 +51,12 @@ export const AuthenticationProvider = ({ children }: { children: React.ReactNode
     }, []);
 
     useEffect(() => {
-        if (!user && pathname !== '/signin') {
-            router.push('/signin');
+        if (redirectPath) {
+            router.push(redirectPath);
         }
+    }, [redirectPath, router]);
 
-        if (user && pathname === '/signin') {
-            router.push('/');
-        }
-    }, [router, user, pathname]);
-
-    if (loading) {
+    if (loading || redirectPath) {
         return <Loading />;
     }
 

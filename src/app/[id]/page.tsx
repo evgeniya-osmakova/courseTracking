@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, use } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
@@ -17,7 +17,8 @@ type Params = {
     id: string;
 }
 
-export default function Course({ params }: { params: Params }) {
+export default function Course(props: { params: Promise<Params> }) {
+    const params = use(props.params);
     const backendClient = useBackendClient();
 
     const [course, setCourse] = useState<Course | null>(null);
