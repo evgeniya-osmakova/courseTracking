@@ -47,20 +47,20 @@ export const Week: React.FC<Props> = (props) => {
             </caption>
 
             <thead className={ styles.wrapper }>
-            <tr>
-                <th/>
+                <tr>
+                    <th/>
 
-                { weekDays.map((day, index) => {
-                    return (
-                        <Day
-                            key={day}
-                            day={day}
-                            index={index}
-                            changeDay={props.changeDay}
-                            currentDay={props.course.currentDay}
-                        />
-                    );
-                })}
+                    { weekDays.map((day, index) => {
+                        return (
+                            <Day
+                                key={day}
+                                day={day}
+                                index={index}
+                                changeDay={props.changeDay}
+                                currentDay={props.course.currentDay}
+                            />
+                        );
+                    })}
                 </tr>
             </thead>
 

@@ -27,7 +27,7 @@ export const Row: React.FC<Props> = (props) => {
                 <th key={i}>
                     <input
                         key={ i }
-                        className={ styles.ckeckBox }
+                        className={ styles.checkBox }
                         type="checkbox"
                         checked={ isChecked }
                         onChange={() => handleChange(isChecked, i)}

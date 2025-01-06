@@ -1,6 +1,6 @@
 <a href="https://codeclimate.com/github/evgeniya-osmakova/courseTracking/maintainability"><img src="https://api.codeclimate.com/v1/badges/4b47d30f25e48c4e4931/maintainability" /></a>
 
-App for tracking your progress in lessons (you can save the current week, current day of the week, and ckeck completed activities)
+App for tracking your progress in lessons (you can save the current week, current day of the week, and check completed activities)
 
 
 Sign in as a guest and you can see one course
