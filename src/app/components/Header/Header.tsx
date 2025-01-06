@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
                 <Image
                     className={styles.icon}
                     src={userIcon}
-                    alt="Follow us on Twitter"
+                    alt="User icon"
                 />
             </div>
         </header>
