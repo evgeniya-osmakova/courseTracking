@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useState, use } from 'react';
+import React, { useEffect, useState, use, useTransition } from 'react'
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
@@ -23,25 +23,19 @@ export default function Course(props: { params: Promise<Params> }) {
 
     const [course, setCourse] = useState<Course | null>(null);
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, startTransition] = useTransition();
 
     useEffect(() => {
-        setLoading(true);
-
-        const getData = async () => {
+        startTransition(async () => {
             try {
-                const { result, error } = await backendClient.getCourseData(params.id);
+                const {result, error} = await backendClient.getCourseData(params.id);
 
                 setCourse(result);
                 setError(!!error);
             } catch (err) {
                 setError(true);
             }
-
-            setLoading(false);
-        };
-
-        getData();
+        });
     }, [params.id, backendClient]);
 
     if (loading) {
