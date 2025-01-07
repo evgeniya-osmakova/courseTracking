@@ -9,6 +9,7 @@ import userIcon from '@/images/user.svg';
 import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
 
 import styles from './styles.module.css';
+import Link from 'next/link'
 
 export const Header: React.FC = () => {
     const { user } = useAuthenticationContext();
@@ -19,6 +20,18 @@ export const Header: React.FC = () => {
         <header className={styles.header}>
             {pathname !== '/signin' && (
                <SingInOutButton />
+            )}
+
+            {user && pathname !== '/add' && (
+                <div className={styles.link}>
+                    <Link href="/add">Add new course</Link>
+                </div>
+            )}
+
+            {user && pathname !== '/' && (
+                <div className={styles.link}>
+                    <Link href="/">Course list</Link>
+                </div>
             )}
 
             <div className={styles.user}>

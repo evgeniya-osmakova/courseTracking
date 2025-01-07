@@ -2,14 +2,20 @@
     height: var(--header-hight);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 10px;
     font-size: 16px;
+}
+
+.link {
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .user {
     display: flex;
     align-items: center;
-    margin-left: auto;
     gap: 10px;
 
     & > .icon {

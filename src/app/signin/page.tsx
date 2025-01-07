@@ -72,6 +72,7 @@ function Page() {
                         type="email"
                         placeholder="example@mail.com"
                         label="E-mail"
+                        required
                     />
 
                     <FormField
@@ -79,6 +80,7 @@ function Page() {
                         type="password"
                         placeholder="password"
                         label="Password"
+                        required
                     />
 
                     <button

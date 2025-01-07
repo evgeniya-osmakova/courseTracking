@@ -1,0 +1,39 @@
+.week {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #222;
+    border-radius: 6px;
+}
+
+.hiddenDayList {
+    visibility: hidden;
+    height: 0;
+}
+
+.day {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 6px;
+}
+
+.hideButton {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 16px;
+
+    &:hover {
+        background-color: #555;
+    }
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
