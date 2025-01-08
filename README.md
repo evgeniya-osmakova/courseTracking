@@ -7,4 +7,4 @@ App for tracking your progress in lessons (you can save the current week, curren
 
 Sign in as a guest and you can see one course
 
-<img width="1342" alt="Screenshot 2025-01-08 at 09 41 28" src="https://github.com/user-attachments/assets/55260a86-40c6-4268-b335-b1aaa2f9bf70" />
+<img width="1341" alt="Screenshot 2025-01-08 at 09 42 45" src="https://github.com/user-attachments/assets/72c53223-d1de-4b52-9e59-c8d311aff078" />
