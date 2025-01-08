@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import React, { useEffect, useState, use, useTransition } from 'react'
 
 import { Video } from '@/app/[id]/components/Video/Video';
@@ -130,14 +129,6 @@ export default function Course(props: { params: Promise<Params> }) {
 
     return (
         <main className={styles.container}>
-            <Link
-                href='/'
-                className={styles.link}
-                title={'To the home page'}
-            >
-                &#10094; Back
-            </Link>
-
             <Week
                 course={course}
                 changeDay={changeDay}
