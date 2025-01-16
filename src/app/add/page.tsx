@@ -186,7 +186,7 @@ function Page() {
             { videosCount > 0 &&
                 <div>
                     <label className={styles.label}>
-                        <p>Video titles fo the single day</p>
+                        <p>Video titles for the single day</p>
                     </label>
 
                     <div className={ styles.day }>
