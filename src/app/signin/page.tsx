@@ -30,7 +30,7 @@ function Page() {
 
                 return;
             }
-        } catch (error) {
+        } catch {
             setError(true);
 
             return;
@@ -50,7 +50,7 @@ function Page() {
 
                 return;
             }
-        } catch (error) {
+        } catch {
             setError(true);
 
             return;

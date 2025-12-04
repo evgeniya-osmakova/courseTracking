@@ -21,7 +21,7 @@ export class BackendClient {
         return await this.firestore.getData();
     }
 
-    async updateCourse(id: string, data: any): Promise<{result: boolean, error: unknown}> {
+    async updateCourse(id: string, data: Partial<Course>): Promise<{result: boolean, error: unknown}> {
         return this.firestore.addData(id, data);
     }
 }

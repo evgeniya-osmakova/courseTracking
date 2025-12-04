@@ -25,7 +25,7 @@ export const CourseList = () => {
                 if (error) {
                     setError(true);
                 }
-            } catch (err: unknown) {
+            } catch {
                 setError(true);
             }
         };

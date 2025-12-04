@@ -7,26 +7,16 @@ import { useBackendClient } from '@/providers/BackendClientProvider';
 
 import styles from './styles.module.css';
 import { Week } from '@/app/add/components/Week'
-
-interface CheckedList {
-    [key: string]: {
-        [key: string]: any[];
-    };
-}
-
-interface VideoList {
-    [key: string]: {
-        [key: string]: any[];
-    };
-}
+import { Course } from '@/types/Course'
+import { getStringFromFormData } from '@/utils/getStringFromFormData'
 
 interface CourseData {
-    name: string;
-    currentWeek: number;
-    currentDay: number;
-    id: string;
-    checkedList: CheckedList;
-    videoList: VideoList;
+    name: Course['name'];
+    currentWeek: Course['currentWeek'];
+    currentDay: Course['currentDay'];
+    id: Course['id'];
+    checkedList: Course['checkedList'];
+    videoList: Course['videoList'];
 }
 
 function Page() {
@@ -68,12 +58,11 @@ function Page() {
         resetKey?: string
     }, FormData>(
         async (previousState, formData) => {
-            const payload = Object.fromEntries(formData.entries());
+            const courseId = getStringFromFormData(formData, 'courseId');
+            const courseName = getStringFromFormData(formData, 'courseName');
 
-            const { courseId, courseName } = payload
-
-            if (typeof courseId !== 'string' || typeof courseName !== 'string') {
-                throw new Error('Unexpected variable type: File');
+            if (!courseId || !courseName) {
+                return previousState;
             }
 
             const courseData: CourseData = {
@@ -107,7 +96,10 @@ function Page() {
                             ? `Video ${titleIndex + 1}`
                             : title
 
-                        const src = payload[`Day ${j} - ${videoTitle}`]
+                        const src = getStringFromFormData(formData, `Day ${j} - ${videoTitle}`)
+                        if (!src) {
+                            return previousState;
+                        }
                         const oldValue = courseData.videoList[weekKey][`day${j}`]
                         courseData.videoList[weekKey][`day${j}`] = [...oldValue, {
                             name: title,
@@ -127,7 +119,7 @@ function Page() {
                             : 'The error occurred, try again',
                     };
                 }
-            } catch (err) {
+            } catch {
                 return {
                     error: 'The error occurred, try again',
                 }
