@@ -15,7 +15,7 @@ export const SingInOutButton = () => {
     const signOut = async () => {
         try {
             await backendClient.authentication.logOut();
-        } catch (err) {
+        } catch {
 
         }
     };

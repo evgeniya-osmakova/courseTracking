@@ -1,4 +1,4 @@
-import { type Firestore } from '@firebase/firestore';
+import { DocumentData, type Firestore } from '@firebase/firestore'
 import {
     type Auth,
     getAuth,
@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore';
 
 import firebase_app from '@/firebase/configuration';
+import { Course } from '@/types/Course'
 
 export class FirestoreAPI {
     constructor() {
@@ -23,7 +24,7 @@ export class FirestoreAPI {
     auth: Auth;
     db: Firestore;
 
-    async addData(id: string, data: any) {
+    async addData(id: string, data: Partial<Course>) {
         let result = false;
         let error = null;
 
@@ -46,8 +47,8 @@ export class FirestoreAPI {
         return { result, error };
     }
 
-    async getData(id?: string): Promise<{ result: any, error: unknown }> {
-        let result = null;
+    async getData(id?: string): Promise<{ result: DocumentData | DocumentData[] | null, error: unknown }> {
+        let result: DocumentData | null = null;
         let error = null;
 
         if (!this.auth) {
@@ -75,7 +76,7 @@ export class FirestoreAPI {
             : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION as string;
     };
 
-    private async getCollectionList(collectionName: string) {
+    private async getCollectionList(collectionName: string): Promise<DocumentData[]> {
         const querySnapshot = await getDocs(collection(this.db, collectionName));
 
         return querySnapshot.docs.map((doc) => ({
@@ -84,7 +85,7 @@ export class FirestoreAPI {
         }));
     };
 
-    private async getCollection(id: string, collectionName: string) {
+    private async getCollection(id: string, collectionName: string): Promise<DocumentData | null> {
         const docRef = doc(this.db, collectionName, id);
 
         const documentSnapshot = await getDoc(docRef);

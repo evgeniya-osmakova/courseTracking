@@ -31,7 +31,7 @@ export default function Course(props: { params: Promise<Params> }) {
 
                 setCourse(result);
                 setError(!!error);
-            } catch (err) {
+            } catch {
                 setError(true);
             }
         });
