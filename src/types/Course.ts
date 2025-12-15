@@ -1,4 +1,5 @@
 import { CheckedDays } from '@/types/Week';
+import { z } from 'zod';
 
 type WeekNumber = string;
 type DayNumber = string;
@@ -18,3 +19,28 @@ export type Course = {
         }
     },
 }
+
+export const CourseSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    currentWeek: z.number(),
+    currentDay: z.number(),
+    checkedList: z.record(
+        z.string(),
+        z.record(z.string(), z.array(z.number()))
+    ),
+    videoList: z.record(
+        z.string(),
+        z.record(
+            z.string(),
+            z.array(
+                z.object({
+                    name: z.string(),
+                    src: z.string(),
+                })
+            )
+        )
+    ),
+});
+
+export const CourseListSchema = z.array(CourseSchema);
