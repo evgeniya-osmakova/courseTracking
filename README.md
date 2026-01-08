@@ -1,4 +1,4 @@
-<a href="https://codeclimate.com/github/evgeniya-osmakova/courseTracking/maintainability"><img src="https://api.codeclimate.com/v1/badges/4b47d30f25e48c4e4931/maintainability" /></a>
+[![Maintainability](https://qlty.sh/gh/evgeniya-osmakova/projects/courseTracking/maintainability.svg)](https://qlty.sh/gh/evgeniya-osmakova/projects/courseTracking)
 # Course Tracking
 
 A web application built with **Next.js** to help users track their progress in various courses. It offers an intuitive interface, user authentication, and a centralized dashboard for course management.
