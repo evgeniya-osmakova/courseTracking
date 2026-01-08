@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, RefObject } from 'react'
+import React, { InputHTMLAttributes, RefObject } from 'react';
 
 import styles from './styles.module.css';
 

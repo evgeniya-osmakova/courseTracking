@@ -1,4 +1,4 @@
-import { DocumentData, type Firestore } from '@firebase/firestore'
+import { DocumentData, type Firestore } from '@firebase/firestore';
 import {
     type Auth,
     getAuth,
@@ -13,7 +13,7 @@ import {
 } from 'firebase/firestore';
 
 import firebase_app from '@/firebase/configuration';
-import { Course } from '@/types/Course'
+import { Course } from '@/types/Course';
 
 export class FirestoreAPI {
     constructor() {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, use, useTransition } from 'react'
+import React, { useEffect, useState, use, useTransition } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';

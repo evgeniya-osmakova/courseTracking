@@ -1,5 +1,6 @@
-import { CheckedDays } from '@/types/Week';
 import { z } from 'zod';
+
+import { CheckedDays } from '@/types/Week';
 
 type WeekNumber = string;
 type DayNumber = string;

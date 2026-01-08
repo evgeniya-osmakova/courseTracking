@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { ListElement } from './ListElement/ListElement';
 import { Error } from '@/components/Error/Error';
 import { useBackendClient } from '@/providers/BackendClientProvider';
 import { Course } from '@/types/Course';
+
+import { ListElement } from './ListElement/ListElement';
 
 
 import styles from './styles.module.css';

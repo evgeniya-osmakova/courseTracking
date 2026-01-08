@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useActionState, useEffect, useState } from 'react'
+import React, { useActionState, useEffect, useState } from 'react';
 
+import { Week } from '@/app/add/components/Week';
 import { FormField } from '@/app/signin/components/FormField';
 import { useBackendClient } from '@/providers/BackendClientProvider';
+import { Course } from '@/types/Course';
+import { getStringFromFormData } from '@/utils/getStringFromFormData';
 
 import styles from './styles.module.css';
-import { Week } from '@/app/add/components/Week'
-import { Course } from '@/types/Course'
-import { getStringFromFormData } from '@/utils/getStringFromFormData'
 
 interface CourseData {
     name: Course['name'];
@@ -29,28 +29,28 @@ function Page() {
 
     useEffect(() => {
         setVideoTitleList((prevState) => {
-            const oldLength = prevState.length
-            const newLength = videosCount
+            const oldLength = prevState.length;
+            const newLength = videosCount;
 
             if (oldLength === newLength) {
-                return prevState
+                return prevState;
             }
 
-            const newValue = [...prevState]
+            const newValue = [...prevState];
 
             if (oldLength < newLength) {
                 for (let i = oldLength; i < newLength; i++) {
-                    newValue.push('')
+                    newValue.push('');
                 }
 
-                return newValue
+                return newValue;
             }
 
-            newValue.length = newLength
+            newValue.length = newLength;
 
-            return newValue
-        })
-    }, [videosCount])
+            return newValue;
+        });
+    }, [videosCount]);
 
     const [response, submitAction, isLoading] = useActionState<{
         error: string | null;
@@ -72,7 +72,7 @@ function Page() {
                 id: courseId,
                 checkedList: {},
                 videoList: {},
-            }
+            };
 
 
             for (let i = 1; i <= weekCount; i++) {
@@ -83,28 +83,28 @@ function Page() {
                 videoTitleList.forEach((title, titleIndex) => {
                     const videoTitle = title === ''
                         ? `Video ${titleIndex + 1}`
-                        : title
+                        : title;
 
                     courseData.checkedList[weekKey][videoTitle] = [];
                 });
 
                 for (let j = 1; j <= 7; j++) {
-                    courseData.videoList[weekKey][`day${j}`] = []
+                    courseData.videoList[weekKey][`day${j}`] = [];
 
                     videoTitleList.forEach((title, titleIndex) => {
                         const videoTitle = title === ''
                             ? `Video ${titleIndex + 1}`
-                            : title
+                            : title;
 
-                        const src = getStringFromFormData(formData, `Day ${j} - ${videoTitle}`)
+                        const src = getStringFromFormData(formData, `Day ${j} - ${videoTitle}`);
                         if (!src) {
                             return previousState;
                         }
-                        const oldValue = courseData.videoList[weekKey][`day${j}`]
+                        const oldValue = courseData.videoList[weekKey][`day${j}`];
                         courseData.videoList[weekKey][`day${j}`] = [...oldValue, {
                             name: title,
                             src,
-                        }]
+                        }];
                     });
                 }
             }
@@ -122,7 +122,7 @@ function Page() {
             } catch {
                 return {
                     error: 'The error occurred, try again',
-                }
+                };
             }
 
             return {
@@ -136,22 +136,22 @@ function Page() {
 
     const handleVideoTitleChange = (value: string, index: number) => {
         setVideoTitleList((prevState) => {
-            const newValue = [...prevState]
+            const newValue = [...prevState];
             newValue.splice(index, 1, value);
 
-            return newValue
+            return newValue;
         });
-    }
+    };
 
     const handleVideoCountChange = (value: string) => {
-        setVideosCount(Number(value))
-    }
+        setVideosCount(Number(value));
+    };
 
     const addNewWeek = (e: React.MouseEvent) => {
         e.preventDefault();
 
         setWeekCount((prevState) => prevState + 1);
-    }
+    };
 
     return (
         <main className={styles.wrapper}>
@@ -190,7 +190,7 @@ function Page() {
                                     label={ `Video ${ index + 1 } title` }
                                     onChange={(value) => handleVideoTitleChange(value, index)}
                                 />
-                            )
+                            );
                         }) }
                     </div>
                 </div>
@@ -219,7 +219,7 @@ function Page() {
                             videoTitleList={ videoTitleList }
                             baseUrl={ baseUrl }
                         />
-                    )
+                    );
                 }) }
 
                 <button

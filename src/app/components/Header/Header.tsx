@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -9,7 +10,6 @@ import userIcon from '@/images/user.svg';
 import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
 
 import styles from './styles.module.css';
-import Link from 'next/link'
 
 export const Header: React.FC = () => {
     const { user } = useAuthenticationContext();
