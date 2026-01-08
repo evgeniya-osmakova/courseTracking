@@ -4,6 +4,7 @@ import React, { FormEvent } from 'react';
 
 import { FormField } from '@/app/signin/components/FormField';
 import { useBackendClient } from '@/providers/BackendClientProvider';
+import { AppError } from '@/types/Error';
 
 import styles from './styles.module.css';
 
@@ -13,25 +14,25 @@ function Page() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState(false);
+    const [error, setError] = React.useState<AppError | null>(null);
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (error) {
-            setError(false);
+            setError(null);
         }
 
         try {
             const { error: fireBaseError } = await backendClient.authentication.signIn(email, password);
 
             if (fireBaseError) {
-                setError(true);
+                setError(fireBaseError);
 
                 return;
             }
-        } catch {
-            setError(true);
+        } catch (e) {
+            setError({ message: 'The error occurred, try again', originalError: e });
 
             return;
         }
@@ -39,19 +40,19 @@ function Page() {
 
     const signInAnonymously = async () => {
         if (error) {
-            setError(false);
+            setError(null);
         }
 
         try {
             const { error: fireBaseError } = await backendClient.authentication.anonymousSignIn();
 
             if (fireBaseError) {
-                setError(true);
+                setError(fireBaseError);
 
                 return;
             }
-        } catch {
-            setError(true);
+        } catch (e) {
+            setError({ message: 'The error occurred, try again', originalError: e });
 
             return;
         }
@@ -101,7 +102,7 @@ function Page() {
 
                 {error && (
                     <div className={styles.error}>
-                        The error occurred, try again
+                        {error.message}
                     </div>
                 )}
         </main>

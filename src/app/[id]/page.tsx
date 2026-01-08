@@ -6,6 +6,7 @@ import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
 import { Error } from '@/components/Error/Error';
 import { Loading } from '@/components/Loading/Loading';
+import { FAILED_TO_LOAD_DATA } from '@/constants/errors';
 import { useBackendClient } from '@/providers/BackendClientProvider';
 import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
@@ -48,7 +49,7 @@ export default function Course(props: { params: Promise<Params> }) {
             <main>
                 <Error error={ {
                     name: 'dataLoadingError',
-                    message: 'Failed to load the data. Please try again later'
+                    message: FAILED_TO_LOAD_DATA
                 } }/>
             </main>
         );

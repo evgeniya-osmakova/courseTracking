@@ -14,6 +14,8 @@ import {
 
 import firebase_app from '@/firebase/configuration';
 import { Course } from '@/types/Course';
+import { AppError } from '@/types/Error';
+import { toAppError } from '@/utils/error';
 
 export class FirestoreAPI {
     constructor() {
@@ -24,12 +26,12 @@ export class FirestoreAPI {
     auth: Auth;
     db: Firestore;
 
-    async addData(id: string, data: Partial<Course>) {
+    async addData(id: string, data: Partial<Course>): Promise<{ result: boolean, error: AppError | null }> {
         let result = false;
-        let error = null;
+        let error: AppError | null = null;
 
         if (!this.auth) {
-            return { result, error };
+            return { result, error: { message: 'Auth not initialized' } };
         }
 
         const collection = this.getCollectionName(this.auth);
@@ -41,18 +43,18 @@ export class FirestoreAPI {
 
             result = true;
         } catch (e) {
-            error = e;
+            error = toAppError(e);
         }
 
         return { result, error };
     }
 
-    async getData(id?: string): Promise<{ result: DocumentData | DocumentData[] | null, error: unknown }> {
-        let result: DocumentData | null = null;
-        let error = null;
+    async getData(id?: string): Promise<{ result: DocumentData | DocumentData[] | null, error: AppError | null }> {
+        let result: DocumentData | DocumentData[] | null = null;
+        let error: AppError | null = null;
 
         if (!this.auth) {
-            return { result, error };
+            return { result, error: { message: 'Auth not initialized' } };
         }
 
         const collectionName = this.getCollectionName(this.auth);
@@ -64,7 +66,7 @@ export class FirestoreAPI {
                 result = await this.getCollectionList(collectionName);
             }
         } catch (e) {
-            error = e;
+            error = toAppError(e);
         }
 
         return { result, error };

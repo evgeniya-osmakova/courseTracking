@@ -10,15 +10,6 @@ import { getStringFromFormData } from '@/utils/getStringFromFormData';
 
 import styles from './styles.module.css';
 
-interface CourseData {
-    name: Course['name'];
-    currentWeek: Course['currentWeek'];
-    currentDay: Course['currentDay'];
-    id: Course['id'];
-    checkedList: Course['checkedList'];
-    videoList: Course['videoList'];
-}
-
 function Page() {
     const backendClient = useBackendClient();
 
@@ -65,7 +56,7 @@ function Page() {
                 return previousState;
             }
 
-            const courseData: CourseData = {
+            const courseData: Course = {
                 name: courseName,
                 currentWeek: 1,
                 currentDay: 1,
@@ -114,14 +105,12 @@ function Page() {
 
                 if (error) {
                     return {
-                        error: typeof error == 'object' && 'message' in error
-                            ? error.message as string
-                            : 'The error occurred, try again',
+                        error: error.message,
                     };
                 }
-            } catch {
+            } catch (e) {
                 return {
-                    error: 'The error occurred, try again',
+                    error: e instanceof Error ? e.message : 'The error occurred, try again',
                 };
             }
 
