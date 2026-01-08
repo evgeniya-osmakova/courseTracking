@@ -7,7 +7,7 @@ import { BackendClientProvider } from '@/providers/BackendClientProvider';
 
 import { Header } from '../Header/Header';
 
-export const Provider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const Provider = ({ children }: React.PropsWithChildren) => {
     return (
         <AuthenticationProvider>
             <BackendClientProvider>

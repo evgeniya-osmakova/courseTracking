@@ -12,7 +12,7 @@ type Props = {
 
 const daysCount = 6;
 
-export const Row: React.FC<Props> = (props) => {
+export const Row = (props: Props) => {
     const handleChange = (checked: boolean, index: number) => {
         return props.changeChecked(!checked, props.name, index);
     };

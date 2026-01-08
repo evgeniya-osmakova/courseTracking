@@ -11,7 +11,7 @@ import { useAuthenticationContext } from '@/providers/AuthenticationProvider';
 
 import styles from './styles.module.css';
 
-export const Header: React.FC = () => {
+export const Header = () => {
     const { user } = useAuthenticationContext();
 
     const pathname = usePathname();

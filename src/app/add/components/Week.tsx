@@ -10,7 +10,7 @@ type Props = {
     baseUrl: string,
 }
 
-export const Week: React.FC<Props> = (props) => {
+export const Week = (props: Props) => {
     const [isHidden, setIsHidden] = React.useState(false);
 
     const toggleVisibility = (e: React.MouseEvent) => {

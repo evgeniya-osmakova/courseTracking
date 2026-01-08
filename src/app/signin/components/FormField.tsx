@@ -8,7 +8,7 @@ interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>{
     ref?: RefObject<HTMLInputElement | null>
 }
 
-export const FormField: React.FC<Props> = (props) => {
+export const FormField = (props: Props) => {
     return (
         <label
             className={styles.label}

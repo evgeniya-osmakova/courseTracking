@@ -16,7 +16,7 @@ type Props = {
 
 const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa'];
 
-export const Week: React.FC<Props> = (props) => {
+export const Week = (props: Props) => {
     const checkedList = props.course.checkedList[`week${props.course.currentWeek}`];
 
     const rowList = Object.keys(checkedList);

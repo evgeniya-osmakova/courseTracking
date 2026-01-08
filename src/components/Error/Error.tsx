@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 type Props = {
     error: Error & { digest?: string }
 }
-export const Error: React.FC<Props> = ({ error }) => {
+export const Error = ({ error }: Props) => {
     return (
         <div className={styles.container}>
             <h2 className={styles.header}>
