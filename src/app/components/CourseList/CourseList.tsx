@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { Error } from '@/components/Error/Error';
+import { Spinner } from '@/components/Spinner/Spinner';
 import { useCourses } from '@/hooks/useCourses';
 
 import { ListElement } from './ListElement/ListElement';
@@ -22,7 +23,7 @@ export const CourseList = () => {
     if (isLoading) {
         return (
             <div className={ styles.listWrapper }>
-                Loading...
+                <Spinner />
             </div>
         );
     }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import React from 'react';
 
 import { Course } from '@/types/Course';
@@ -12,16 +12,14 @@ type Props = {
 }
 
 export const ListElement: React.FC<Props> = (props) => {
-    const router = useRouter();
-
     return (
-        <div
+        <Link
             className={styles.container}
-            onClick={() => router.push(`/${props.item.id}`)}
+            href={`/${props.item.id}`}
         >
             <div className={styles.name}>
                 {props.item.name}
             </div>
-        </div>
+        </Link>
     );
 };
