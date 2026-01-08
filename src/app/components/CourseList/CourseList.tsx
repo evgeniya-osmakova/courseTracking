@@ -1,12 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Error } from '@/components/Error/Error';
-import { FAILED_TO_LOAD_DATA } from '@/constants/errors';
-import { useBackendClient } from '@/providers/BackendClientProvider';
-import { Course } from '@/types/Course';
-import { AppError } from '@/types/Error';
+import { useCourses } from '@/hooks/useCourses';
 
 import { ListElement } from './ListElement/ListElement';
 
@@ -14,45 +11,39 @@ import { ListElement } from './ListElement/ListElement';
 import styles from './styles.module.css';
 
 export const CourseList = () => {
-    const backendClient = useBackendClient();
-    const [data, setData] = useState<Course[] | null>([]);
-    const [error, setError] = useState<AppError | null>(null);
+    const { data, error, isLoading } = useCourses();
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const {result, error} = await backendClient.getCourseList();
-
-                setData(result);
-                setError(error);
-            } catch (e) {
-                setError({ message: FAILED_TO_LOAD_DATA, originalError: e });
-            }
-        };
-
-        getData();
-    }, [backendClient]);
-
-    if (!data || error) {
+    if (error) {
         return (
-            <Error error={ error || {
-                name: 'dataLoadingError',
-                message: FAILED_TO_LOAD_DATA
-            } as any }/>
+            <Error error={ error }/>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className={ styles.listWrapper }>
+                Loading...
+            </div>
+        );
+    }
+
+    if (!data || data.length === 0) {
+        return (
+            <div className={ styles.listWrapper }>
+                No courses found.
+            </div>
         );
     }
 
     return (
         <div className={ styles.listWrapper }>
             {
-                data.map((item) => {
-                    return (
-                        <ListElement
-                            item={ item }
-                            key={ item.id }
-                        />
-                    );
-                })
+                data.map((item) => (
+                    <ListElement
+                        item={ item }
+                        key={ item.id }
+                    />
+                ))
             }
         </div>
     );

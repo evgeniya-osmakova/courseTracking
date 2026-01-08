@@ -31,7 +31,7 @@ export class FirestoreAPI {
         let error: AppError | null = null;
 
         if (!this.auth) {
-            return { result, error: { message: 'Auth not initialized' } };
+            return { result, error: toAppError('Auth not initialized') };
         }
 
         const collection = this.getCollectionName(this.auth);
@@ -54,7 +54,7 @@ export class FirestoreAPI {
         let error: AppError | null = null;
 
         if (!this.auth) {
-            return { result, error: { message: 'Auth not initialized' } };
+            return { result, error: toAppError('Auth not initialized') };
         }
 
         const collectionName = this.getCollectionName(this.auth);
