@@ -4,6 +4,8 @@ import React, { FormEvent } from 'react';
 
 import { FormField } from '@/app/signin/components/FormField';
 import { useBackendClient } from '@/providers/BackendClientProvider';
+import { AppError } from '@/types/Error';
+import { toAppError } from '@/utils/error';
 
 import styles from './styles.module.css';
 
@@ -13,48 +15,32 @@ function Page() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState(false);
+    const [error, setError] = React.useState<AppError | null>(null);
+
+    const runAuthAction = async (action: () => Promise<{ error: AppError | null }>) => {
+        if (error) {
+            setError(null);
+        }
+
+        try {
+            const { error: fireBaseError } = await action();
+
+            if (fireBaseError) {
+                setError(fireBaseError);
+            }
+        } catch (e) {
+            setError(toAppError(e));
+        }
+    };
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (error) {
-            setError(false);
-        }
-
-        try {
-            const { error: fireBaseError } = await backendClient.authentication.signIn(email, password);
-
-            if (fireBaseError) {
-                setError(true);
-
-                return;
-            }
-        } catch {
-            setError(true);
-
-            return;
-        }
+        await runAuthAction(() => backendClient.authentication.signIn(email, password));
     };
 
     const signInAnonymously = async () => {
-        if (error) {
-            setError(false);
-        }
-
-        try {
-            const { error: fireBaseError } = await backendClient.authentication.anonymousSignIn();
-
-            if (fireBaseError) {
-                setError(true);
-
-                return;
-            }
-        } catch {
-            setError(true);
-
-            return;
-        }
+        await runAuthAction(() => backendClient.authentication.anonymousSignIn());
     };
 
     return (
@@ -70,6 +56,8 @@ function Page() {
                     <FormField
                         onChange={setEmail}
                         type="email"
+                        name="email"
+                        autoComplete="email"
                         placeholder="example@mail.com"
                         label="E-mail"
                         required
@@ -78,6 +66,8 @@ function Page() {
                     <FormField
                         onChange={setPassword}
                         type="password"
+                        name="password"
+                        autoComplete="current-password"
                         placeholder="password"
                         label="Password"
                         required
@@ -101,7 +91,7 @@ function Page() {
 
                 {error && (
                     <div className={styles.error}>
-                        The error occurred, try again
+                        {error.message}
                     </div>
                 )}
         </main>

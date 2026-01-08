@@ -10,7 +10,7 @@ type Props = {
     weeksCount: number;
 }
 
-export const WeekArrow: React.FC<Props> = (props) => {
+export const WeekArrow = (props: Props) => {
     const isFirstWeek = props.currentWeek === 1;
     const isLastWeek = props.currentWeek === props.weeksCount;
 

@@ -1,4 +1,4 @@
-import { DocumentData, type Firestore } from '@firebase/firestore'
+import { DocumentData, type Firestore } from '@firebase/firestore';
 import {
     type Auth,
     getAuth,
@@ -13,7 +13,9 @@ import {
 } from 'firebase/firestore';
 
 import firebase_app from '@/firebase/configuration';
-import { Course } from '@/types/Course'
+import { Course } from '@/types/Course';
+import { AppError } from '@/types/Error';
+import { toAppError } from '@/utils/error';
 
 export class FirestoreAPI {
     constructor() {
@@ -24,12 +26,12 @@ export class FirestoreAPI {
     auth: Auth;
     db: Firestore;
 
-    async addData(id: string, data: Partial<Course>) {
+    async addData(id: string, data: Partial<Course>): Promise<{ result: boolean, error: AppError | null }> {
         let result = false;
-        let error = null;
+        let error: AppError | null = null;
 
         if (!this.auth) {
-            return { result, error };
+            return { result, error: toAppError('Auth not initialized') };
         }
 
         const collection = this.getCollectionName(this.auth);
@@ -41,18 +43,18 @@ export class FirestoreAPI {
 
             result = true;
         } catch (e) {
-            error = e;
+            error = toAppError(e);
         }
 
         return { result, error };
     }
 
-    async getData(id?: string): Promise<{ result: DocumentData | DocumentData[] | null, error: unknown }> {
-        let result: DocumentData | null = null;
-        let error = null;
+    async getData(id?: string): Promise<{ result: DocumentData | DocumentData[] | null, error: AppError | null }> {
+        let result: DocumentData | DocumentData[] | null = null;
+        let error: AppError | null = null;
 
         if (!this.auth) {
-            return { result, error };
+            return { result, error: toAppError('Auth not initialized') };
         }
 
         const collectionName = this.getCollectionName(this.auth);
@@ -64,16 +66,22 @@ export class FirestoreAPI {
                 result = await this.getCollectionList(collectionName);
             }
         } catch (e) {
-            error = e;
+            error = toAppError(e);
         }
 
         return { result, error };
     }
 
     private getCollectionName = (auth: Auth) => {
-        return auth.currentUser?.isAnonymous
-            ? process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_ANONYMOUS as string
-            : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION as string;
+        const collection = auth.currentUser?.isAnonymous
+            ? process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_ANONYMOUS
+            : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION;
+
+        if (!collection) {
+            throw new Error('Firebase collection name is not defined in environment variables');
+        }
+
+        return collection;
     };
 
     private async getCollectionList(collectionName: string): Promise<DocumentData[]> {

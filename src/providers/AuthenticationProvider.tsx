@@ -71,7 +71,7 @@ export function useAuthenticationContext(): Context {
     const context = useContext(AuthenticationContext);
 
     if (!context) {
-        throw new Error('useBackendClient must be used within BackendClientProvider');
+        throw new Error('useAuthenticationContext must be used within AuthenticationProvider');
     }
 
     return context;

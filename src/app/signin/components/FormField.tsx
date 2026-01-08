@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, RefObject } from 'react'
+import React, { InputHTMLAttributes, RefObject } from 'react';
 
 import styles from './styles.module.css';
 
@@ -8,25 +8,27 @@ interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>{
     ref?: RefObject<HTMLInputElement | null>
 }
 
-export const FormField: React.FC<Props> = (props) => {
+export const FormField = ({ label, onChange, ...props }: Props) => {
+    const id = props.id ?? props.name ?? props.type;
+
     return (
         <label
             className={styles.label}
-            htmlFor={ props.type }
+            htmlFor={ id }
         >
             <p>
-                { props.label }
+                { label }
             </p>
 
             <input
                 {...props}
+                id={ id }
                 className={ styles.field }
-                onChange={ props.onChange
-                    ? (e) => props.onChange!(e.target.value)
+                onChange={ onChange
+                    ? (e) => onChange(e.target.value)
                     : undefined
                 }
                 type={ props.type ?? 'text' }
-                autoComplete="true"
             />
         </label>
     );

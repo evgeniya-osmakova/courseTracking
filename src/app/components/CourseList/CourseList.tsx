@@ -1,58 +1,50 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+
+import { Error } from '@/components/Error/Error';
+import { Spinner } from '@/components/Spinner/Spinner';
+import { useCourses } from '@/hooks/useCourses';
 
 import { ListElement } from './ListElement/ListElement';
-import { Error } from '@/components/Error/Error';
-import { useBackendClient } from '@/providers/BackendClientProvider';
-import { Course } from '@/types/Course';
 
 
 import styles from './styles.module.css';
 
 export const CourseList = () => {
-    const backendClient = useBackendClient();
-    const [data, setData] = useState<Course[] | null>([]);
-    const [error, setError] = useState(false);
+    const { data, error, isLoading } = useCourses();
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const {result, error: error} = await backendClient.getCourseList();
-
-                setData(result);
-
-                if (error) {
-                    setError(true);
-                }
-            } catch {
-                setError(true);
-            }
-        };
-
-        getData();
-    }, [backendClient]);
-
-    if (!data || error) {
+    if (error) {
         return (
-            <Error error={ {
-                name: 'dataLoadingError',
-                message: 'Failed to load the data. Please try again later'
-            } }/>
+            <Error error={ error }/>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className={ styles.listWrapper }>
+                <Spinner />
+            </div>
+        );
+    }
+
+    if (!data || data.length === 0) {
+        return (
+            <div className={ styles.listWrapper }>
+                No courses found.
+            </div>
         );
     }
 
     return (
         <div className={ styles.listWrapper }>
             {
-                data.map((item) => {
-                    return (
-                        <ListElement
-                            item={ item }
-                            key={ item.id }
-                        />
-                    );
-                })
+                data.map((item) => (
+                    <ListElement
+                        item={ item }
+                        key={ item.id }
+                    />
+                ))
             }
         </div>
     );

@@ -12,7 +12,7 @@ type Props = {
 
 const daysCount = 6;
 
-export const Row: React.FC<Props> = (props) => {
+export const Row = (props: Props) => {
     const handleChange = (checked: boolean, index: number) => {
         return props.changeChecked(!checked, props.name, index);
     };
@@ -24,7 +24,7 @@ export const Row: React.FC<Props> = (props) => {
             const isChecked = props.data.includes(i);
 
             dayList.push(
-                <th key={i}>
+                <td key={i}>
                     <input
                         key={ i }
                         className={ styles.checkBox }
@@ -32,7 +32,7 @@ export const Row: React.FC<Props> = (props) => {
                         checked={ isChecked }
                         onChange={() => handleChange(isChecked, i)}
                     />
-                </th>
+                </td>
             );
         }
 
@@ -41,9 +41,9 @@ export const Row: React.FC<Props> = (props) => {
 
     return (
         <tr>
-            <th className={ styles.rowName }>
+            <td className={ styles.rowName }>
                 { props.name }
-            </th>
+            </td>
 
             {renderDay()}
         </tr>

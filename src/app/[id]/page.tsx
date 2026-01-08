@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useState, use, useTransition } from 'react'
+import React, { useEffect, useState, use, useTransition } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
 import { Error } from '@/components/Error/Error';
 import { Loading } from '@/components/Loading/Loading';
+import { FAILED_TO_LOAD_DATA } from '@/constants/errors';
 import { useBackendClient } from '@/providers/BackendClientProvider';
 import type { Course } from '@/types/Course';
 import { WeekDay } from '@/types/Week';
@@ -25,16 +26,22 @@ export default function Course(props: { params: Promise<Params> }) {
     const [loading, startTransition] = useTransition();
 
     useEffect(() => {
-        startTransition(async () => {
+        const getData = async () => {
             try {
-                const {result, error} = await backendClient.getCourseData(params.id);
+                const { result, error } = await backendClient.getCourseData(params.id);
 
-                setCourse(result);
-                setError(!!error);
+                startTransition(() => {
+                    setCourse(result);
+                    setError(!!error);
+                });
             } catch {
-                setError(true);
+                startTransition(() => {
+                    setError(true);
+                });
             }
-        });
+        };
+
+        getData();
     }, [params.id, backendClient]);
 
     if (loading) {
@@ -46,10 +53,12 @@ export default function Course(props: { params: Promise<Params> }) {
     if (!course || error) {
         return (
             <main>
-                <Error error={ {
-                    name: 'dataLoadingError',
-                    message: 'Failed to load the data. Please try again later'
-                } }/>
+                <Error
+                    error={{
+                        name: 'dataLoadingError',
+                        message: FAILED_TO_LOAD_DATA
+                    }}
+                />
             </main>
         );
     }

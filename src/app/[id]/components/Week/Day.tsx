@@ -10,7 +10,7 @@ type Props = {
     changeDay: (index: number) => void;
 }
 
-export const Day: React.FC<Props> = (props) => {
+export const Day = (props: Props) => {
     return (
         <th
             key={ props.day }

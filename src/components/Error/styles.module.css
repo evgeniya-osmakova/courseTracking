@@ -25,3 +25,31 @@
         border: 1px solid white;
     }
 }
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.button {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+
+    &:hover {
+        background: white;
+        color: black;
+    }
+}
+
+.message {
+    max-width: 600px;
+    text-align: center;
+    color: #ccc;
+}

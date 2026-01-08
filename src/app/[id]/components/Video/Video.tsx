@@ -7,7 +7,7 @@ type Props = {
     name: string;
 }
 
-export const Video: React.FC<Props> = (props) => {
+export const Video = (props: Props) => {
     return (
         <iframe
             className={styles.video}

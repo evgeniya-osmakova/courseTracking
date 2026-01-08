@@ -1,7 +1,8 @@
-import { FormField } from '@/app/signin/components/FormField'
-import React from 'react'
+import React from 'react';
 
-import styles from './styles.module.css'
+import { FormField } from '@/app/signin/components/FormField';
+
+import styles from './styles.module.css';
 
 type Props = {
     weekNumber: number,
@@ -9,14 +10,14 @@ type Props = {
     baseUrl: string,
 }
 
-export const Week: React.FC<Props> = (props) => {
-    const [isHidden, setIsHidden] = React.useState(false)
+export const Week = (props: Props) => {
+    const [isHidden, setIsHidden] = React.useState(false);
 
     const toggleVisibility = (e: React.MouseEvent) => {
         e.preventDefault();
 
         setIsHidden(!isHidden);
-    }
+    };
 
     return (
         <div className={styles.week}>
@@ -34,7 +35,7 @@ export const Week: React.FC<Props> = (props) => {
             <div className={ isHidden ? styles.hiddenDayList : undefined}>
                 {
                     Array.from({ length: 7 }, (_, index: number) => {
-                        const dayNumber = index + 1
+                        const dayNumber = index + 1;
 
                         return (
                             <div
@@ -45,7 +46,7 @@ export const Week: React.FC<Props> = (props) => {
                                     const name = `Day ${ dayNumber } - ${ title === ''
                                         ? `Video ${index + 1}`
                                         : title
-                                    }`
+                                    }`;
 
                                     return (
                                         <FormField
@@ -55,13 +56,13 @@ export const Week: React.FC<Props> = (props) => {
                                             defaultValue={props.baseUrl}
                                             placeholder={ 'https://www.youtube.com' }
                                         />
-                                    )
+                                    );
                                 }) }
                             </div>
-                        )
+                        );
                     })
                 }
             </div>
         </div>
-    )
-}
+    );
+};
