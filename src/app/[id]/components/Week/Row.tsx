@@ -24,7 +24,7 @@ export const Row = (props: Props) => {
             const isChecked = props.data.includes(i);
 
             dayList.push(
-                <th key={i}>
+                <td key={i}>
                     <input
                         key={ i }
                         className={ styles.checkBox }
@@ -32,7 +32,7 @@ export const Row = (props: Props) => {
                         checked={ isChecked }
                         onChange={() => handleChange(isChecked, i)}
                     />
-                </th>
+                </td>
             );
         }
 
@@ -41,9 +41,9 @@ export const Row = (props: Props) => {
 
     return (
         <tr>
-            <th className={ styles.rowName }>
+            <td className={ styles.rowName }>
                 { props.name }
-            </th>
+            </td>
 
             {renderDay()}
         </tr>

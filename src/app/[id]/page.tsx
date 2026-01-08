@@ -26,16 +26,22 @@ export default function Course(props: { params: Promise<Params> }) {
     const [loading, startTransition] = useTransition();
 
     useEffect(() => {
-        startTransition(async () => {
+        const getData = async () => {
             try {
-                const {result, error} = await backendClient.getCourseData(params.id);
+                const { result, error } = await backendClient.getCourseData(params.id);
 
-                setCourse(result);
-                setError(!!error);
+                startTransition(() => {
+                    setCourse(result);
+                    setError(!!error);
+                });
             } catch {
-                setError(true);
+                startTransition(() => {
+                    setError(true);
+                });
             }
-        });
+        };
+
+        getData();
     }, [params.id, backendClient]);
 
     if (loading) {
@@ -47,10 +53,12 @@ export default function Course(props: { params: Promise<Params> }) {
     if (!course || error) {
         return (
             <main>
-                <Error error={ {
-                    name: 'dataLoadingError',
-                    message: FAILED_TO_LOAD_DATA
-                } }/>
+                <Error
+                    error={{
+                        name: 'dataLoadingError',
+                        message: FAILED_TO_LOAD_DATA
+                    }}
+                />
             </main>
         );
     }

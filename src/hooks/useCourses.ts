@@ -16,6 +16,7 @@ export const useCourses = () => {
 
         const getData = async () => {
             setIsLoading(true);
+            setError(null);
             try {
                 const { result, error } = await backendClient.getCourseList();
 

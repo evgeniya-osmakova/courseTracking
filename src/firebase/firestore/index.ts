@@ -73,9 +73,15 @@ export class FirestoreAPI {
     }
 
     private getCollectionName = (auth: Auth) => {
-        return auth.currentUser?.isAnonymous
-            ? process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_ANONYMOUS as string
-            : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION as string;
+        const collection = auth.currentUser?.isAnonymous
+            ? process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_ANONYMOUS
+            : process.env.NEXT_PUBLIC_FIREBASE_COLLECTION;
+
+        if (!collection) {
+            throw new Error('Firebase collection name is not defined in environment variables');
+        }
+
+        return collection;
     };
 
     private async getCollectionList(collectionName: string): Promise<DocumentData[]> {
