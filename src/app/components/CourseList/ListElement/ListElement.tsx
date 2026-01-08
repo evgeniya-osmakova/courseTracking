@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+
 import { Course } from '@/types/Course';
 
 import styles from './styles.module.css';

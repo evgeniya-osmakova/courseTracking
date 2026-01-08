@@ -41,6 +41,13 @@
 
 .error {
     margin-top: 20px;
-    color: red;
+    color: #ff4d4f;
     max-width: 300px;
+    background-color: #fff1f0;
+    border: 1px solid #ffa39e;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
 }

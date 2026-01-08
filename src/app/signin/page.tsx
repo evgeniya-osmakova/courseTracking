@@ -56,6 +56,8 @@ function Page() {
                     <FormField
                         onChange={setEmail}
                         type="email"
+                        name="email"
+                        autoComplete="email"
                         placeholder="example@mail.com"
                         label="E-mail"
                         required
@@ -64,6 +66,8 @@ function Page() {
                     <FormField
                         onChange={setPassword}
                         type="password"
+                        name="password"
+                        autoComplete="current-password"
                         placeholder="password"
                         label="Password"
                         required

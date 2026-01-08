@@ -13,6 +13,7 @@ export function toAppError(error: unknown): AppError {
         return {
             name: error.name,
             message: error.message,
+            code: 'code' in error ? String(error.code) : undefined,
             originalError: error,
         };
     }
