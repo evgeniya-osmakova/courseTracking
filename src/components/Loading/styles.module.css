@@ -1,8 +1,14 @@
 .container {
-    width: 100vw;
-    height: calc(100vh - var(--header-hight));
-    display: flex;
-    margin-top: auto;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    min-height: calc(100vh - var(--header-hight));
+    place-items: center;
+    padding: 36px;
+    background: var(--color-page-bg);
+    color: var(--color-ink);
+}
+
+.panel {
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 800;
 }

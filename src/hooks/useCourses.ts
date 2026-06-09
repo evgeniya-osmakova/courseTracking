@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { useBackendClient } from '@/providers/BackendClientProvider';
-import { Course } from '@/types/Course';
+import type { CourseListItem } from '@/types/Course';
 import { AppError } from '@/types/Error';
 import { toAppError } from '@/utils/error';
 
 export const useCourses = () => {
     const backendClient = useBackendClient();
-    const [data, setData] = useState<Course[] | null>(null);
+    const [data, setData] = useState<CourseListItem[] | null>(null);
     const [error, setError] = useState<AppError | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 

@@ -1,14 +1,10 @@
 import { defineConfig, globalIgnores } from 'eslint/config'
 import nextVitals from 'eslint-config-next/core-web-vitals'
-import importPlugin from 'eslint-plugin-import'
 
 export default defineConfig([
     ...nextVitals,
     {
         files: ['**/*.{js,jsx,ts,tsx}'],
-        plugins: {
-            import: importPlugin,
-        },
         rules: {
             quotes: ['error', 'single', { avoidEscape: true }],
             semi: ['error', 'always'],

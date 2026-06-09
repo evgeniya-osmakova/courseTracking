@@ -24,6 +24,7 @@ export const Error = ({ error, reset = () => window.location.reload() }: Props) 
                     <button
                         onClick={() => reset()}
                         className={styles.button}
+                        type="button"
                     >
                         Try again
                     </button>

@@ -45,55 +45,78 @@ function Page() {
 
     return (
         <main className={styles.wrapper}>
-                <h1 className={styles.header}>
-                    Sign in
-                </h1>
+            <div
+                aria-hidden="true"
+                className={styles.backgroundPattern}
+            />
 
-                <form
-                    onSubmit={handleForm}
-                    className={styles.form}
-                >
-                    <FormField
-                        onChange={setEmail}
-                        type="email"
-                        name="email"
-                        autoComplete="email"
-                        placeholder="example@mail.com"
-                        label="E-mail"
-                        required
-                    />
+            <section className={styles.authCard}>
+                <aside className={styles.brandPanel}>
+                    <div className={styles.brandName}>
+                        Course Tracking
+                    </div>
 
-                    <FormField
-                        onChange={setPassword}
-                        type="password"
-                        name="password"
-                        autoComplete="current-password"
-                        placeholder="password"
-                        label="Password"
-                        required
-                    />
+                    <div className={styles.brandMark}>
+                        <span className={styles.brandLetters}>
+                            CT
+                        </span>
+
+                        <span className={styles.brandUnderline} />
+                    </div>
+                </aside>
+
+                <section className={styles.formPanel}>
+                    <h1 className={styles.header}>
+                        Sign in
+                    </h1>
+
+                    <form
+                        onSubmit={handleForm}
+                        className={styles.form}
+                    >
+                        <FormField
+                            onChange={setEmail}
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            placeholder="example@mail.com"
+                            label="E-mail"
+                            required
+                        />
+
+                        <FormField
+                            onChange={setPassword}
+                            type="password"
+                            name="password"
+                            autoComplete="current-password"
+                            placeholder="password"
+                            label="Password"
+                            required
+                        />
+
+                        <button
+                            className={styles.button}
+                            type="submit"
+                        >
+                            Sign in
+                        </button>
+                    </form>
+
 
                     <button
-                        className={styles.button}
-                        type="submit"
+                        className={styles.anonymousButton}
+                        onClick={signInAnonymously}
                     >
-                        Sign in
+                        Sign in as a guest
                     </button>
-                </form>
 
-
-                <button
-                    className={styles.anonymousButton}
-                    onClick={signInAnonymously}
-                >
-                    Sign in as a guest
-                </button>
-
-                {error && (
-                    <div className={styles.error}>
-                        {error.message}
-                    </div>
-                )}
+                    {error && (
+                        <div className={styles.error}>
+                            {error.message}
+                        </div>
+                    )}
+                </section>
+            </section>
         </main>
     );
 }

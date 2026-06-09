@@ -8,6 +8,7 @@ type Props = {
     weekNumber: number,
     videoTitleList: string[],
     baseUrl: string,
+    onRemove: () => void,
 }
 
 export const Week = (props: Props) => {
@@ -21,13 +22,25 @@ export const Week = (props: Props) => {
 
     return (
         <div className={styles.week}>
-            <h3>
-                week {props.weekNumber}
-            </h3>
+            <div className={styles.weekHeader}>
+                <h3>
+                    week {props.weekNumber}
+                </h3>
+
+                <button
+                    aria-label={`Remove week ${props.weekNumber}`}
+                    className={styles.removeButton}
+                    onClick={props.onRemove}
+                    type="button"
+                >
+                    x
+                </button>
+            </div>
 
             <button
                 className={styles.hideButton}
                 onClick={toggleVisibility}
+                type="button"
             >
                 {!isHidden ? 'Hide days' : 'Show days'}
             </button>

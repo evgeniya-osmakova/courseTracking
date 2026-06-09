@@ -24,7 +24,7 @@ export const Row = (props: Props) => {
             const isChecked = props.data.includes(i);
 
             dayList.push(
-                <td key={i}>
+                <td key={i} className={ styles.checkBoxWrapper }>
                     <input
                         key={ i }
                         className={ styles.checkBox }

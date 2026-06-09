@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, use, useTransition } from 'react';
+import React, { useEffect, useState, use } from 'react';
 
 import { Video } from '@/app/[id]/components/Video/Video';
 import { Week } from '@/app/[id]/components/Week/Week';
@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 
 type Params = {
     id: string;
-}
+};
 
 export default function Course(props: { params: Promise<Params> }) {
     const params = use(props.params);
@@ -23,43 +23,48 @@ export default function Course(props: { params: Promise<Params> }) {
 
     const [course, setCourse] = useState<Course | null>(null);
     const [error, setError] = useState(false);
-    const [loading, startTransition] = useTransition();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getData = async () => {
+            setIsLoading(true);
+            setError(false);
+
             try {
                 const { result, error } = await backendClient.getCourseData(params.id);
 
-                startTransition(() => {
-                    setCourse(result);
-                    setError(!!error);
-                });
-            } catch {
-                startTransition(() => {
+                if (error || !result) {
+                    setCourse(null);
                     setError(true);
-                });
+                    return;
+                }
+
+                setCourse(result);
+            } catch {
+                setCourse(null);
+                setError(true);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         getData();
     }, [params.id, backendClient]);
 
-    if (loading) {
-        return (
-            <Loading />
-        );
+    if (isLoading) {
+        return <Loading />;
     }
 
     if (!course || error) {
         return (
-            <main>
-                <Error
-                    error={{
-                        name: 'dataLoadingError',
-                        message: FAILED_TO_LOAD_DATA
-                    }}
-                />
-            </main>
+          <main>
+              <Error
+                  error={{
+                      name: 'dataLoadingError',
+                      message: FAILED_TO_LOAD_DATA,
+                  }}
+              />
+          </main>
         );
     }
 
@@ -108,13 +113,10 @@ export default function Course(props: { params: Promise<Params> }) {
         let newData: WeekDay[];
 
         if (checked) {
-            newData = [...oldData, index];
+            newData = oldData.includes(index) ? oldData : [...oldData, index];
         } else {
-            const indexToDelete = oldData.findIndex((item) => item === index);
-            newData = [...oldData];
-            newData.splice(indexToDelete, 1);
+            newData = oldData.filter((item) => item !== index);
         }
-
 
         const newValue = {
             ...course,
@@ -123,8 +125,8 @@ export default function Course(props: { params: Promise<Params> }) {
                 [`week${course.currentWeek}`]: {
                     ...checkedList,
                     [activityType]: newData,
-                }
-            }
+                },
+            },
         };
 
         const { error } = await backendClient.updateCourse(params.id, newValue);
@@ -136,28 +138,54 @@ export default function Course(props: { params: Promise<Params> }) {
         }
     };
 
-    return (
-        <main className={styles.container}>
-            <Week
-                course={course}
-                changeDay={changeDay}
-                changeWeek={changeWeek}
-                changeChecked={changeChecked}
-            />
+    const videoList =
+      course.videoList[`week${course.currentWeek}`]?.[`day${course.currentDay}`] ?? [];
 
-            <section className={styles.videoList}>
-                {
-                    course.videoList[`week${course.currentWeek}`]?.[`day${course.currentDay}`]?.map((item) => {
-                        return (
+    return (
+      <main className={styles.wrapper}>
+          <div
+              aria-hidden="true"
+              className={styles.backgroundPattern}
+          />
+
+          <div className={styles.content}>
+              <section className={styles.coursePanel}>
+                  <div className={styles.courseHeader}>
+                      <p className={styles.eyebrow}>
+                          Course progress
+                      </p>
+
+                      <h1 className={styles.title}>
+                          {course.name}
+                      </h1>
+                  </div>
+
+                  <Week
+                      course={course}
+                      changeDay={changeDay}
+                      changeWeek={changeWeek}
+                      changeChecked={changeChecked}
+                  />
+              </section>
+
+              <section className={styles.videoPanel}>
+                  <h2 className={styles.sectionTitle}>
+                      Video list
+                  </h2>
+
+                  <div className={styles.videoList}>
+                      {videoList.map((item) => {
+                          return (
                             <Video
                                 key={item.src}
                                 src={item.src}
                                 name={item.name}
                             />
-                        );
-                    })
-                }
-            </section>
-        </main>
+                          );
+                      })}
+                  </div>
+              </section>
+          </div>
+      </main>
     );
 }

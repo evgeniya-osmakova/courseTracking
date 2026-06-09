@@ -25,6 +25,7 @@ export const SingInOutButton = () => {
             <button
                 className={ styles.action }
                 onClick={ signOut }
+                type="button"
             >
                 Sign out
             </button>
