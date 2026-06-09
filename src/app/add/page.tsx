@@ -14,9 +14,10 @@ function Page() {
     const backendClient = useBackendClient();
 
     const [baseUrl, setBaseUrl] = useState('');
-    const [weekCount, setWeekCount] = useState(0);
-    const [videosCount, setVideosCount] = useState(3);
-    const [videoTitleList, setVideoTitleList] = useState<string[]>(Array(3).fill(''));
+    const [weeks, setWeeks] = useState<number[]>([]);
+    const [nextWeekId, setNextWeekId] = useState(1);
+    const [videosCount, setVideosCount] = useState(2);
+    const [videoTitleList, setVideoTitleList] = useState<string[]>(Array(2).fill(''));
 
     const [response, submitAction, isLoading] = useActionState<{
         error: string | null;
@@ -41,7 +42,7 @@ function Page() {
             };
 
 
-            for (let i = 1; i <= weekCount; i++) {
+            for (let i = 1; i <= weeks.length; i++) {
                 const weekKey = `week${i}`;
                 courseData.checkedList[weekKey] = {};
                 courseData.videoList[weekKey] = {};
@@ -122,108 +123,131 @@ function Page() {
     const addNewWeek = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        setWeekCount((prevState) => prevState + 1);
+        setWeeks((prevState) => [...prevState, nextWeekId]);
+        setNextWeekId((prevState) => prevState + 1);
+    };
+
+    const removeWeek = (weekId: number) => {
+        setWeeks((prevState) => prevState.filter((id) => id !== weekId));
     };
 
     return (
         <main className={styles.wrapper}>
-            <h1 className={styles.header}>
-                Add new course
-            </h1>
-
-            <FormField
-                name="baseUrl"
-                placeholder="https://example.com/video"
-                label="Base URL for videos"
-                onChange={setBaseUrl}
+            <div
+                aria-hidden="true"
+                className={styles.backgroundPattern}
             />
 
-            <FormField
-                name="videosCount"
-                type="number"
-                min="1"
-                defaultValue={videosCount}
-                label="Number of videos per day"
-                onChange={handleVideoCountChange}
-            />
+            <div className={styles.pageGrid}>
+                <section className={styles.setupPanel}>
+                    <h1 className={styles.header}>
+                        Add new course
+                    </h1>
 
-            { videosCount > 0 &&
-                <div>
-                    <label className={styles.label}>
-                        <p>Video titles for the single day</p>
-                    </label>
+                    <FormField
+                        name="baseUrl"
+                        placeholder="https://example.com/video"
+                        label="Base URL for videos"
+                        onChange={setBaseUrl}
+                    />
 
-                    <div className={ styles.day }>
-                        { Array.from({length: videosCount}, (_, index: number) => {
+                    <FormField
+                        name="videosCount"
+                        type="number"
+                        min="1"
+                        defaultValue={videosCount}
+                        label="Number of videos per day"
+                        onChange={handleVideoCountChange}
+                    />
+
+                    { videosCount > 0 &&
+                        <div>
+                            <label className={styles.label}>
+                                <p>Video titles for the single day</p>
+                            </label>
+
+                            <div className={ styles.day }>
+                                { Array.from({length: videosCount}, (_, index: number) => {
+                                    return (
+                                        <FormField
+                                            key={ index }
+                                            name={ `videoTitle${ index + 1 }` }
+                                            label={ `Video ${ index + 1 } title` }
+                                            onChange={(value) => handleVideoTitleChange(value, index)}
+                                        />
+                                    );
+                                }) }
+                            </div>
+                        </div>
+                    }
+                </section>
+
+                <form
+                    action={ submitAction }
+                    className={styles.weekPanel}
+                    key={response?.resetKey}
+                >
+                    <FormField
+                        name="courseId"
+                        label="Storage course id"
+                    />
+
+                    <FormField
+                        name="courseName"
+                        placeholder="new course"
+                        label="Course name"
+                    />
+
+                    <div className={styles.weekList}>
+                        { weeks.map((weekId, index) => {
                             return (
-                                <FormField
-                                    key={ index }
-                                    name={ `videoTitle${ index + 1 }` }
-                                    label={ `Video ${ index + 1 } title` }
-                                    onChange={(value) => handleVideoTitleChange(value, index)}
+                                <Week
+                                    key={weekId}
+                                    weekNumber={ index + 1 }
+                                    videoTitleList={ videoTitleList }
+                                    baseUrl={ baseUrl }
+                                    onRemove={() => removeWeek(weekId)}
                                 />
                             );
                         }) }
                     </div>
+
+                    <div className={styles.actions}>
+                        <button
+                            className={ styles.addButton }
+                            onClick={ addNewWeek }
+                            type="button"
+                        >
+                            + Add new week
+                        </button>
+
+                        <button
+                            className={ styles.submitButton }
+                            disabled={isLoading}
+                            type="submit"
+                        >
+                            { isLoading
+                                ? '...Loading'
+                                : 'Load data'
+                            }
+                        </button>
+                    </div>
+                </form>
+
+                <div className={styles.messageArea}>
+                    { response.error && (
+                        <div className={ styles.error }>
+                            { response.error }
+                        </div>
+                    ) }
+
+                    { response.success && (
+                        <div className={ styles.success }>
+                            Course content was successfully loaded.
+                        </div>
+                    )}
                 </div>
-            }
-
-            <form
-                action={ submitAction }
-                key={response?.resetKey}
-            >
-                <FormField
-                    name="courseId"
-                    label="Storage course id"
-                />
-
-                <FormField
-                    name="courseName"
-                    placeholder="new course"
-                    label="Course name"
-                />
-
-                { Array.from({length: weekCount}, (_, index: number) => {
-                    return (
-                        <Week
-                            key={index}
-                            weekNumber={ index + 1 }
-                            videoTitleList={ videoTitleList }
-                            baseUrl={ baseUrl }
-                        />
-                    );
-                }) }
-
-                <button
-                    className={ styles.addButton }
-                    onClick={ addNewWeek }
-                >
-                    + Add new week
-                </button>
-
-                <button
-                    className={ styles.submitButton }
-                    disabled={isLoading}
-                    type="submit"
-                >
-                    { isLoading
-                        ? '...Loading'
-                        : 'Load data'
-                    }
-                </button>
-            </form>
-
-            { response.error && (
-                <div className={ styles.error }>
-                    { response.error }
-                </div>
-            ) }
-
-            { response.success && (
-                <div className={ styles.success }>
-                    Course content was successfully loaded.
-                </div>
-            )}
+            </div>
         </main>
     );
 }

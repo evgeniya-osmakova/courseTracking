@@ -1,35 +1,75 @@
 .week {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 6px;
+    display: grid;
+    gap: 14px;
+    position: relative;
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: rgb(var(--color-shadow-rgb) / 5%);
+}
+
+.weekHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.week h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 22px;
+    line-height: 1;
+}
+
+.removeButton {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-panel-bg);
+    color: var(--color-muted);
+    cursor: pointer;
+    font-size: 21px;
+    line-height: 1;
+}
+
+.removeButton:hover {
+    color: var(--color-ink);
+    filter: brightness(0.98);
 }
 
 .hiddenDayList {
-    visibility: hidden;
-    height: 0;
+    display: none;
 }
 
 .day {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #333;
-    border-radius: 6px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--color-panel-bg);
 }
 
 .hideButton {
-    background-color: #444;
-    color: #fff;
-    border: none;
+    width: fit-content;
+    min-height: 38px;
+    border: 0;
+    border-radius: 10px;
+    padding: 0 14px;
+    background: var(--color-accent-dark);
+    color: var(--color-on-accent);
     cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 4px;
-    margin: 10px 0;
-    font-size: 16px;
+    font-size: 13px;
+    font-weight: 800;
+}
 
-    &:hover {
-        background-color: #555;
-    }
+.hideButton:hover {
+    filter: brightness(1.08);
 }
 
 .inputGroup {

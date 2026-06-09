@@ -54,6 +54,9 @@
   --color-error-bg: #fff4ef;
   --color-error: #8a2e16;
   --color-error-border: #d8a08d;
+  --color-success-bg: #f0f8eb;
+  --color-success: #355f25;
+  --color-success-border: #b9d1ae;
   --color-mask-solid: #000000;
 
   --color-accent-rgb: 182 92 61;
