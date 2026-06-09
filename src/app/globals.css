@@ -40,6 +40,25 @@
   --card-border-rgb: 131, 134, 135;
 
   --header-hight: 50px;
+
+  --color-page-bg: #f5f2e9;
+  --color-panel-bg: #fff8ea;
+  --color-input-bg: #ffffff;
+  --color-ink: #2b1420;
+  --color-muted: #6f5b59;
+  --color-placeholder: #9f9691;
+  --color-border: #d8cbb8;
+  --color-accent: #b65c3d;
+  --color-accent-dark: #2a101b;
+  --color-on-accent: #ffffff;
+  --color-error-bg: #fff4ef;
+  --color-error: #8a2e16;
+  --color-error-border: #d8a08d;
+  --color-mask-solid: #000000;
+
+  --color-accent-rgb: 182 92 61;
+  --color-muted-rgb: 111 75 87;
+  --color-shadow-rgb: 122 77 50;
 }
 
 @media (prefers-color-scheme: dark) {
