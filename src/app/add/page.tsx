@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useActionState, useEffect, useState } from 'react';
+import React, { useActionState, useState } from 'react';
 
 import { Week } from '@/app/add/components/Week';
 import { FormField } from '@/app/signin/components/FormField';
@@ -16,32 +16,7 @@ function Page() {
     const [baseUrl, setBaseUrl] = useState('');
     const [weekCount, setWeekCount] = useState(0);
     const [videosCount, setVideosCount] = useState(3);
-    const [videoTitleList, setVideoTitleList] = useState<string[]>([]);
-
-    useEffect(() => {
-        setVideoTitleList((prevState) => {
-            const oldLength = prevState.length;
-            const newLength = videosCount;
-
-            if (oldLength === newLength) {
-                return prevState;
-            }
-
-            const newValue = [...prevState];
-
-            if (oldLength < newLength) {
-                for (let i = oldLength; i < newLength; i++) {
-                    newValue.push('');
-                }
-
-                return newValue;
-            }
-
-            newValue.length = newLength;
-
-            return newValue;
-        });
-    }, [videosCount]);
+    const [videoTitleList, setVideoTitleList] = useState<string[]>(Array(3).fill(''));
 
     const [response, submitAction, isLoading] = useActionState<{
         error: string | null;
@@ -133,7 +108,15 @@ function Page() {
     };
 
     const handleVideoCountChange = (value: string) => {
-        setVideosCount(Number(value));
+        const nextVideosCount = Math.max(0, Number(value) || 0);
+
+        setVideosCount(nextVideosCount);
+        setVideoTitleList((prevState) => {
+            const newValue = [...prevState];
+            newValue.length = nextVideosCount;
+
+            return newValue.fill('', prevState.length);
+        });
     };
 
     const addNewWeek = (e: React.MouseEvent) => {
