@@ -22,7 +22,7 @@ export const CourseList = () => {
 
     if (isLoading) {
         return (
-            <div className={ styles.listWrapper }>
+            <div className={ styles.stateWrapper }>
                 <Spinner />
             </div>
         );
@@ -30,7 +30,7 @@ export const CourseList = () => {
 
     if (!data || data.length === 0) {
         return (
-            <div className={ styles.listWrapper }>
+            <div className={ styles.stateWrapper }>
                 No courses found.
             </div>
         );

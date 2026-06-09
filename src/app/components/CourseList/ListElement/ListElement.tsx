@@ -19,6 +19,10 @@ export const ListElement = ({ item }: Props) => {
             <div className={styles.name}>
                 {item.name}
             </div>
+
+            <span className={styles.arrow}>
+                {'>'}
+            </span>
         </Link>
     );
 };
