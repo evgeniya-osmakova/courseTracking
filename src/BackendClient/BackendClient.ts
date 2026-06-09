@@ -1,6 +1,6 @@
 import { AuthenticationAPI } from '@/firebase/auth';
 import { FirestoreAPI } from '@/firebase/firestore';
-import { Course, CourseListSchema, CourseSchema } from '@/types/Course';
+import { type Course, type CourseListItem, CourseListSchema, CourseSchema } from '@/types/Course';
 import { AppError } from '@/types/Error';
 import { toAppError } from '@/utils/error';
 
@@ -40,7 +40,7 @@ export class BackendClient {
         return { result: parsed.data, error: null };
     }
 
-    async getCourseList(): Promise<{ result: Course[] | null, error: AppError | null }> {
+    async getCourseList(): Promise<{ result: CourseListItem[] | null, error: AppError | null }> {
         const { result, error } = await this.firestore.getData();
 
         if (error) {

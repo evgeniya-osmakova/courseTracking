@@ -25,4 +25,11 @@ export const CourseSchema = z.object({
 
 export type Course = z.infer<typeof CourseSchema>;
 
-export const CourseListSchema = z.array(CourseSchema);
+export const CourseListItemSchema = CourseSchema.pick({
+    id: true,
+    name: true,
+});
+
+export type CourseListItem = z.infer<typeof CourseListItemSchema>;
+
+export const CourseListSchema = z.array(CourseListItemSchema);

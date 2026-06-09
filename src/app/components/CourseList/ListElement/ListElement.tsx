@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 
-import { Course } from '@/types/Course';
+import type { CourseListItem } from '@/types/Course';
 
 import styles from './styles.module.css';
 
 type Props = {
-    item: Course;
+    item: CourseListItem;
 }
 
 export const ListElement = ({ item }: Props) => {
