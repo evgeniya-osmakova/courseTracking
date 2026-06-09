@@ -16,11 +16,13 @@ export const Header = () => {
 
     const pathname = usePathname();
 
+    if (pathname === '/signin') {
+        return null;
+    }
+
     return (
         <header className={styles.header}>
-            {pathname !== '/signin' && (
-               <SingInOutButton />
-            )}
+            <SingInOutButton />
 
             {user && pathname !== '/add' && (
                 <div className={styles.link}>
