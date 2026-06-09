@@ -9,13 +9,19 @@ type Props = {
 
 export const Video = (props: Props) => {
     return (
-        <iframe
-            className={styles.video}
-            title={props.name}
-            allow="accelerometer; gyroscope; picture-in-picture; fullscreen"
-            width="400"
-            height="315"
-            src={props.src}
-        />
+        <article className={styles.card}>
+            <div className={styles.videoFrame}>
+                <iframe
+                    className={styles.video}
+                    title={props.name}
+                    allow="accelerometer; gyroscope; picture-in-picture; fullscreen"
+                    src={props.src}
+                />
+            </div>
+
+            <h3 className={styles.title}>
+                {props.name}
+            </h3>
+        </article>
     );
 };

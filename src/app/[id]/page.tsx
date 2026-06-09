@@ -136,28 +136,53 @@ export default function Course(props: { params: Promise<Params> }) {
         }
     };
 
+    const videoList = course.videoList[`week${course.currentWeek}`]?.[`day${course.currentDay}`] ?? [];
+
     return (
-        <main className={styles.container}>
-            <Week
-                course={course}
-                changeDay={changeDay}
-                changeWeek={changeWeek}
-                changeChecked={changeChecked}
+        <main className={styles.wrapper}>
+            <div
+                aria-hidden="true"
+                className={styles.backgroundPattern}
             />
 
-            <section className={styles.videoList}>
-                {
-                    course.videoList[`week${course.currentWeek}`]?.[`day${course.currentDay}`]?.map((item) => {
-                        return (
-                            <Video
-                                key={item.src}
-                                src={item.src}
-                                name={item.name}
-                            />
-                        );
-                    })
-                }
-            </section>
+            <div className={styles.content}>
+                <section className={styles.coursePanel}>
+                    <div className={styles.courseHeader}>
+                        <p className={styles.eyebrow}>
+                            Course progress
+                        </p>
+
+                        <h1 className={styles.title}>
+                            {course.name}
+                        </h1>
+                    </div>
+
+                    <Week
+                        course={course}
+                        changeDay={changeDay}
+                        changeWeek={changeWeek}
+                        changeChecked={changeChecked}
+                    />
+                </section>
+
+                <section className={styles.videoPanel}>
+                    <h2 className={styles.sectionTitle}>
+                        Video list
+                    </h2>
+
+                    <div className={styles.videoList}>
+                        {videoList.map((item) => {
+                            return (
+                                <Video
+                                    key={item.src}
+                                    src={item.src}
+                                    name={item.name}
+                                />
+                            );
+                        })}
+                    </div>
+                </section>
+            </div>
         </main>
     );
 }

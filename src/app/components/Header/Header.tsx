@@ -22,34 +22,59 @@ export const Header = () => {
 
     return (
         <header className={styles.header}>
-            <SingInOutButton />
+            <Link
+                className={styles.brand}
+                href="/"
+            >
+                <span className={styles.brandMark}>
+                    CT
+                </span>
 
-            {user && pathname !== '/add' && (
-                <div className={styles.link}>
-                    <Link href="/add">Add new course</Link>
-                </div>
-            )}
+                <span>
+                    Course Tracking
+                </span>
+            </Link>
 
-            {user && pathname !== '/' && (
-                <div className={styles.link}>
-                    <Link href="/">Course list</Link>
-                </div>
-            )}
+            <nav className={styles.nav}>
+                {user && pathname !== '/add' && (
+                    <Link
+                        className={styles.link}
+                        href="/add"
+                    >
+                        Add new course
+                    </Link>
+                )}
 
-            <div className={styles.user}>
-                <div className={styles.name}>
-                    {
-                        user?.isAnonymous
-                            ? 'Anonymous'
-                            : user?.email
-                    }
-                </div>
+                {user && pathname !== '/' && (
+                    <Link
+                        className={styles.link}
+                        href="/"
+                    >
+                        Course list
+                    </Link>
+                )}
+            </nav>
 
-                <Image
-                    className={styles.icon}
-                    src={userIcon}
-                    alt="User icon"
-                />
+            <div className={styles.account}>
+                <SingInOutButton />
+
+                {user && (
+                    <div className={styles.user}>
+                        <div className={styles.name}>
+                            {
+                                user.isAnonymous
+                                    ? 'Anonymous'
+                                    : user.email
+                            }
+                        </div>
+
+                        <Image
+                            className={styles.icon}
+                            src={userIcon}
+                            alt="User icon"
+                        />
+                    </div>
+                )}
             </div>
         </header>
     );
