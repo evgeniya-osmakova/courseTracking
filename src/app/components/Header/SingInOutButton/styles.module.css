@@ -1,13 +1,16 @@
 .action {
-    border: 1px solid transparent;
-    background: none;
+    min-height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 0 14px;
+    background: var(--color-panel-bg);
+    color: var(--color-ink);
     cursor: pointer;
-    padding: 2px;
-    border-radius: 2px;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 800;
+}
 
-    &:hover {
-        opacity: 0.7;
-        border: 1px solid white;
-    }
+.action:hover {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
 }

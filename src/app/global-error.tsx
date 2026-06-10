@@ -1,12 +1,21 @@
 'use client';
 
-export default function Error({ error }: {
-    error: Error & { digest?: string }
+import { Error } from '@/components/Error/Error';
+
+export default function GlobalError({
+    error,
+    reset,
+}: {
+    error: Error & { digest?: string };
+    reset: () => void;
 }) {
     return (
         <html>
             <body>
-                <Error error={error} />
+                <Error
+                    error={error}
+                    reset={reset}
+                />
             </body>
         </html>
     );

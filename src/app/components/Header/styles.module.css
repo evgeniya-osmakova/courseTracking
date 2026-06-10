@@ -1,28 +1,117 @@
 .header {
-    height: var(--header-hight);
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(190px, 1fr) auto minmax(190px, 1fr);
+    align-items: center;
+    gap: 18px;
+    min-height: var(--header-hight);
+    padding: 8px 36px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-page-bg);
+    color: var(--color-ink);
+}
+
+.brand {
+    grid-column: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.brandMark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: 13px;
+}
+
+.nav {
+    grid-column: 2;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    font-size: 16px;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-panel-bg);
+}
+
+.nav:empty {
+    display: none;
 }
 
 .link {
-    &:hover {
-        text-decoration: underline;
-    }
+    border-radius: 999px;
+    padding: 8px 14px;
+    color: var(--color-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.link:hover {
+    background: rgb(var(--color-shadow-rgb) / 7%);
+    color: var(--color-ink);
+}
+
+.account {
+    grid-column: 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
 .user {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    min-width: 0;
+    color: var(--color-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
 
-    & > .icon {
-        width: 30px;
-        height: 30px;
+.name {
+    overflow: hidden;
+    max-width: 260px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+@media (max-width: 760px) {
+    .header {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+        padding: 12px 24px;
     }
 
-    & > .name {
+    .brand,
+    .nav,
+    .account {
+        grid-column: auto;
+        justify-self: center;
+    }
+
+    .nav {
+        width: 100%;
+    }
+
+    .link {
+        flex: 1;
+        text-align: center;
     }
 }

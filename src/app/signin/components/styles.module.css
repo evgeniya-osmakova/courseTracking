@@ -1,17 +1,31 @@
 .label {
     display: block;
+    margin-bottom: 20px;
+    color: var(--color-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.label p {
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #ccc;
 }
 
 .field {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #444;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: #222;
-    color: #fff;
+    height: 46px;
+    border: 0;
+    border-radius: 10px;
+    padding: 0 14px;
+    background: var(--color-input-bg);
+    color: var(--color-ink);
+    font-size: 14px;
+    outline: 1px solid transparent;
+}
+
+.field::placeholder {
+    color: var(--color-placeholder);
+}
+
+.field:focus {
+    outline-color: var(--color-accent);
 }

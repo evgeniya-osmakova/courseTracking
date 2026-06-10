@@ -1,46 +1,206 @@
 .wrapper {
+    position: relative;
+    min-height: 100vh;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 48px 24px;
+    background:
+        radial-gradient(circle at 18% 18%, rgb(var(--color-accent-rgb) / 12%) 0 1px, transparent 2px),
+        radial-gradient(circle at 72% 68%, rgb(var(--color-accent-rgb) / 14%) 0 1px, transparent 2px),
+        var(--color-page-bg);
+    background-size: 128px 128px, 156px 156px, auto;
+    color: var(--color-ink);
+}
+
+.backgroundPattern {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgb(var(--color-muted-rgb) / 13%) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-mask-solid) 18%,
+        var(--color-mask-solid) 82%,
+        transparent
+    );
+}
+
+.authCard {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(320px, 480px);
+    gap: 28px;
+    width: min(868px, 100%);
+}
+
+.brandPanel,
+.formPanel {
+    min-height: 560px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 18px 40px rgb(var(--color-shadow-rgb) / 16%);
+}
+
+.brandPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    padding: 34px;
+    background: var(--color-accent-dark);
+    color: var(--color-on-accent);
+}
+
+.brandName {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.brandMark {
+    display: flex;
+    min-height: 288px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 8px;
+    background: var(--color-accent);
+}
+
+.brandLetters {
+    font-size: clamp(72px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+}
+
+.brandUnderline {
+    width: 92px;
+    height: 6px;
+    margin-top: 18px;
+    border-radius: 999px;
+    background: var(--color-on-accent);
+}
+
+.formPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 44px 48px;
+    background: var(--color-panel-bg);
 }
 
 .header {
-    margin: 30px 0;
+    margin: 0 0 28px;
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1;
+    color: var(--color-ink);
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+}
+
+.form label {
+    margin-bottom: 20px;
+    color: var(--color-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.form label p {
+    margin-bottom: 8px;
+}
+
+.form input {
+    width: 100%;
+    height: 58px;
+    border: 0;
+    border-radius: 12px;
+    padding: 0 18px;
+    background: var(--color-input-bg);
+    color: var(--color-ink);
+    font-size: 16px;
+    outline: 1px solid transparent;
+}
+
+.form input::placeholder {
+    color: var(--color-placeholder);
+}
+
+.form input:focus {
+    outline-color: var(--color-accent);
+}
+
+.button,
+.anonymousButton {
+    width: 100%;
+    min-height: 58px;
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 800;
 }
 
 .button {
-    cursor: pointer;
-    width: 200px;
-    margin: auto;
+    margin-top: 2px;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
 }
 
 .anonymousButton {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 4px;
-    margin: 20px auto;
-    font-size: 16px;
-    display: block;
-    width: 200px;
-    text-align: center;
+    margin-top: 22px;
+    background: var(--color-input-bg);
+    color: var(--color-ink);
+}
 
-    &:hover {
-        background-color: #0056b3;
-    }
+.button:hover,
+.anonymousButton:hover {
+    filter: brightness(0.96);
 }
 
 .error {
     margin-top: 20px;
-    color: red;
-    max-width: 300px;
+    border: 1px solid var(--color-error-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    background: var(--color-error-bg);
+    color: var(--color-error);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+@media (max-width: 760px) {
+    .wrapper {
+        align-items: stretch;
+        padding: 24px;
+    }
+
+    .authCard {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .brandPanel,
+    .formPanel {
+        min-height: auto;
+    }
+
+    .brandPanel {
+        padding: 24px;
+    }
+
+    .brandMark {
+        min-height: 180px;
+    }
+
+    .formPanel {
+        padding: 28px 24px;
+    }
 }

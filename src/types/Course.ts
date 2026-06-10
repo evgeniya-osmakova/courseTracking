@@ -1,24 +1,4 @@
-import { CheckedDays } from '@/types/Week';
 import { z } from 'zod';
-
-type WeekNumber = string;
-type DayNumber = string;
-
-export type Course = {
-    id: string,
-    name: string,
-    currentWeek: number,
-    currentDay: number,
-    checkedList: { [key: string]: CheckedDays},
-    videoList: {
-        [key: WeekNumber]: {
-            [key: DayNumber]: {
-                name: string,
-                src: string
-            }[]
-        }
-    },
-}
 
 export const CourseSchema = z.object({
     id: z.string(),
@@ -43,4 +23,13 @@ export const CourseSchema = z.object({
     ),
 });
 
-export const CourseListSchema = z.array(CourseSchema);
+export type Course = z.infer<typeof CourseSchema>;
+
+export const CourseListItemSchema = CourseSchema.pick({
+    id: true,
+    name: true,
+});
+
+export type CourseListItem = z.infer<typeof CourseListItemSchema>;
+
+export const CourseListSchema = z.array(CourseListItemSchema);

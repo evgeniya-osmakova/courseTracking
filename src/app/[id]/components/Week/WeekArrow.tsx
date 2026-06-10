@@ -10,7 +10,7 @@ type Props = {
     weeksCount: number;
 }
 
-export const WeekArrow: React.FC<Props> = (props) => {
+export const WeekArrow = (props: Props) => {
     const isFirstWeek = props.currentWeek === 1;
     const isLastWeek = props.currentWeek === props.weeksCount;
 
@@ -31,19 +31,23 @@ export const WeekArrow: React.FC<Props> = (props) => {
 
     const title = isInactive
         ? undefined
-        : 'Select previous week';
+        : props.arrowType === 'previous'
+            ? 'Select previous week'
+            : 'Select next week';
 
     const arrow = props.arrowType === 'previous'
-        ? '\u276E'
-        : '\u276F';
+        ? '<'
+        : '>';
 
     return (
-        <div
+        <button
             className={ weekClassName }
+            disabled={isInactive}
             onClick={ changeWeek }
             title={ title }
+            type="button"
         >
             {arrow}
-        </div>
+        </button>
     );
 };

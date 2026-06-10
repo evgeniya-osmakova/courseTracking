@@ -4,6 +4,8 @@ import React, { FormEvent } from 'react';
 
 import { FormField } from '@/app/signin/components/FormField';
 import { useBackendClient } from '@/providers/BackendClientProvider';
+import { AppError } from '@/types/Error';
+import { toAppError } from '@/utils/error';
 
 import styles from './styles.module.css';
 
@@ -13,97 +15,108 @@ function Page() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState(false);
+    const [error, setError] = React.useState<AppError | null>(null);
+
+    const runAuthAction = async (action: () => Promise<{ error: AppError | null }>) => {
+        if (error) {
+            setError(null);
+        }
+
+        try {
+            const { error: fireBaseError } = await action();
+
+            if (fireBaseError) {
+                setError(fireBaseError);
+            }
+        } catch (e) {
+            setError(toAppError(e));
+        }
+    };
 
     const handleForm = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (error) {
-            setError(false);
-        }
-
-        try {
-            const { error: fireBaseError } = await backendClient.authentication.signIn(email, password);
-
-            if (fireBaseError) {
-                setError(true);
-
-                return;
-            }
-        } catch {
-            setError(true);
-
-            return;
-        }
+        await runAuthAction(() => backendClient.authentication.signIn(email, password));
     };
 
     const signInAnonymously = async () => {
-        if (error) {
-            setError(false);
-        }
-
-        try {
-            const { error: fireBaseError } = await backendClient.authentication.anonymousSignIn();
-
-            if (fireBaseError) {
-                setError(true);
-
-                return;
-            }
-        } catch {
-            setError(true);
-
-            return;
-        }
+        await runAuthAction(() => backendClient.authentication.anonymousSignIn());
     };
 
     return (
         <main className={styles.wrapper}>
-                <h1 className={styles.header}>
-                    Sign in
-                </h1>
+            <div
+                aria-hidden="true"
+                className={styles.backgroundPattern}
+            />
 
-                <form
-                    onSubmit={handleForm}
-                    className={styles.form}
-                >
-                    <FormField
-                        onChange={setEmail}
-                        type="email"
-                        placeholder="example@mail.com"
-                        label="E-mail"
-                        required
-                    />
+            <section className={styles.authCard}>
+                <aside className={styles.brandPanel}>
+                    <div className={styles.brandName}>
+                        Course Tracking
+                    </div>
 
-                    <FormField
-                        onChange={setPassword}
-                        type="password"
-                        placeholder="password"
-                        label="Password"
-                        required
-                    />
+                    <div className={styles.brandMark}>
+                        <span className={styles.brandLetters}>
+                            CT
+                        </span>
+
+                        <span className={styles.brandUnderline} />
+                    </div>
+                </aside>
+
+                <section className={styles.formPanel}>
+                    <h1 className={styles.header}>
+                        Sign in
+                    </h1>
+
+                    <form
+                        onSubmit={handleForm}
+                        className={styles.form}
+                    >
+                        <FormField
+                            onChange={setEmail}
+                            type="email"
+                            name="email"
+                            autoComplete="email"
+                            placeholder="example@mail.com"
+                            label="E-mail"
+                            required
+                        />
+
+                        <FormField
+                            onChange={setPassword}
+                            type="password"
+                            name="password"
+                            autoComplete="current-password"
+                            placeholder="password"
+                            label="Password"
+                            required
+                        />
+
+                        <button
+                            className={styles.button}
+                            type="submit"
+                        >
+                            Sign in
+                        </button>
+                    </form>
+
 
                     <button
-                        className={styles.button}
-                        type="submit"
+                        className={styles.anonymousButton}
+                        onClick={signInAnonymously}
                     >
-                        Sign in
+                        Sign in as a guest
                     </button>
-                </form>
 
-
-                <button
-                    className={styles.anonymousButton}
-                    onClick={signInAnonymously}
-                >
-                    Sign in as a guest
-                </button>
-
-                {error && (
-                    <div className={styles.error}>
-                        The error occurred, try again
-                    </div>
-                )}
+                    {error && (
+                        <div className={styles.error}>
+                            {error.message}
+                        </div>
+                    )}
+                </section>
+            </section>
         </main>
     );
 }
